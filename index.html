@@ -780,201 +780,226 @@
     </section>
 
   </div>
-
-  <script>
-  // 1. KONEKSI SUPABASE
-  const SUPABASE_URL = "ISI_DENGAN_PROJECT_URL_KAMU";
-  const SUPABASE_KEY = "ISI_DENGAN_ANON_KEY_KAMU";
-  const supabase = supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
-
-  // Generate Otomatis Opsi Kelas X.A - XII.J
-  const selectKelas = document.getElementById('login-kelas');
-  const tingkatan = ['X', 'XI', 'XII'];
-  const abjad = ['A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J'];
-
-  tingkatan.forEach(t => {
-    abjad.forEach(a => {
-      const option = document.createElement('option');
-      option.value = `${t}.${a}`;
-      option.textContent = `Kelas ${t}.${a}`;
-      selectKelas.appendChild(option);
-    });
-  });
-
-  function openLoginModal() {
-    document.getElementById('loginModal').classList.add('active');
-  }
-
-  function closeLoginModal() {
-    document.getElementById('loginModal').classList.remove('active');
-  }
-
-  let currentUser = null;
-
-  // 2. LOGIKA LOGIN & REGISTER (Tersimpan di Supabase)
-  document.getElementById('loginForm').addEventListener('submit', async function(e) {
-    e.preventDefault();
+  
+<script>
+    // 1. KONEKSI SUPABASE
+    const SUPABASE_URL = "https://ytozaepwxuxkuyrkjggl.supabase.co";
+    const SUPABASE_KEY = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Inl0b3phZXB3eHV4a3V5cmtqZ2dsIiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODUzMDMwMjUsImV4cCI6MjEwMDg3OTAyNX0.8Oc0R_tPhLJo0nXpuuRahpgtctpKRvjN9ZPc_LMiQlA";
     
-    const inputNama = document.getElementById('login-nama').value.trim();
-    const inputPassword = document.getElementById('login-password').value;
-    const inputKelas = document.getElementById('login-kelas').value;
+    // Inisialisasi client Supabase
+    const supabaseClient = supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
 
-    // Cek apakah akun siswa sudah terdaftar
-    let { data: existingUser, error } = await supabase
-      .from('siswa')
-      .select('*')
-      .eq('nama', inputNama)
-      .single();
+    // Generate Otomatis Opsi Kelas X.A - XII.J
+    const selectKelas = document.getElementById('login-kelas');
+    if (selectKelas && selectKelas.options.length <= 1) {
+      const tingkatan = ['X', 'XI', 'XII'];
+      const abjad = ['A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J'];
 
-    if (existingUser) {
-      // Verifikasi Password jika nama sudah ada
-      if (existingUser.password !== inputPassword) {
-        alert("⚠️ Password salah! Silakan coba lagi.");
-        return;
-      }
-      currentUser = existingUser;
-      alert(`Selamat datang kembali, ${currentUser.nama}! 👋`);
-    } else {
-      // Buat akun baru jika nama belum ada
-      const { data: newUser, error: insertError } = await supabase
+      tingkatan.forEach(t => {
+        abjad.forEach(a => {
+          const option = document.createElement('option');
+          option.value = `${t}.${a}`;
+          option.textContent = `Kelas ${t}.${a}`;
+          selectKelas.appendChild(option);
+        });
+      });
+    }
+
+    function openLoginModal() {
+      document.getElementById('loginModal').classList.add('active');
+    }
+
+    function closeLoginModal() {
+      document.getElementById('loginModal').classList.remove('active');
+    }
+
+    let currentUser = null;
+
+    // 2. LOGIKA LOGIN & REGISTER (Tersimpan di Supabase)
+    const loginForm = document.getElementById('loginForm');
+    if (loginForm) {
+      loginForm.addEventListener('submit', async function(e) {
+        e.preventDefault();
+        
+        const inputNama = document.getElementById('login-nama').value.trim();
+        const inputPassword = document.getElementById('login-password').value;
+        const inputKelas = document.getElementById('login-kelas').value;
+
+        if (!inputNama || !inputPassword || !inputKelas) {
+          alert("Lengkapi semua bidang input!");
+          return;
+        }
+
+        // Cek apakah akun siswa sudah terdaftar
+        let { data: existingUser, error } = await supabaseClient
+          .from('siswa')
+          .select('*')
+          .eq('nama', inputNama)
+          .maybeSingle();
+
+        if (error) {
+          alert("Terjadi kesalahan sistem: " + error.message);
+          return;
+        }
+
+        if (existingUser) {
+          // Verifikasi Password jika nama sudah ada
+          if (existingUser.password !== inputPassword) {
+            alert("⚠️ Password salah! Silakan coba lagi.");
+            return;
+          }
+          currentUser = existingUser;
+          alert(`Selamat datang kembali, ${currentUser.nama}! 👋`);
+        } else {
+          // Buat akun baru jika nama belum ada
+          const { data: newUser, error: insertError } = await supabaseClient
+            .from('siswa')
+            .insert([{ 
+              nama: inputNama, 
+              password: inputPassword, 
+              kelas: inputKelas,
+              streak: 0,
+              points: 0,
+              waste_kg: 0,
+              carbon_t: 0
+            }])
+            .select()
+            .single();
+
+          if (insertError) {
+            alert("Gagal mendaftar: " + insertError.message);
+            return;
+          }
+          currentUser = newUser;
+          alert(`Pendaftaran berhasil! Selamat bergabung, ${currentUser.nama} (${currentUser.kelas})! 🎉`);
+        }
+
+        updateUI();
+        loadLeaderboard();
+        closeLoginModal();
+      });
+    }
+
+    // Update Tampilan UI Pengguna
+    function updateUI() {
+      if (!currentUser) return;
+
+      document.getElementById('nav-user-text').innerText = currentUser.nama;
+      document.getElementById('lead-user-nama').innerText = `${currentUser.nama} 🎉`;
+      document.getElementById('lead-user-kelas').innerText = currentUser.kelas;
+
+      document.getElementById('user-streak').innerText = currentUser.streak || 0;
+      document.getElementById('user-points').innerText = (currentUser.points || 0).toLocaleString() + ' Pts';
+      document.getElementById('user-waste').innerText = (currentUser.waste_kg || 0) + ' kg';
+      document.getElementById('user-carbon').innerText = (currentUser.carbon_t || 0) + ' T';
+
+      document.getElementById('lead-streak').innerText = currentUser.streak || 0;
+      document.getElementById('lead-points').innerText = (currentUser.points || 0).toLocaleString() + ' Pts';
+    }
+
+    // 3. AMBIL DATA LEADERBOARD REAL-TIME DARI SUPABASE
+    async function loadLeaderboard() {
+      const { data: topSiswa, error } = await supabaseClient
         .from('siswa')
-        .insert([{ nama: inputNama, password: inputPassword, kelas: inputKelas }])
-        .select()
-        .single();
+        .select('nama, kelas, points, streak')
+        .order('points', { ascending: false })
+        .limit(3);
 
-      if (insertError) {
-        alert("Gagal mendaftar: " + insertError.message);
-        return;
-      }
-      currentUser = newUser;
-      alert(`Pendaftaran berhasil! Selamat bergabung, ${currentUser.nama} (${currentUser.kelas})! 🎉`);
+      if (error || !topSiswa) return;
+
+      const leaderboardContainer = document.querySelector('.leaderboard-list');
+      if (!leaderboardContainer) return;
+
+      leaderboardContainer.innerHTML = '';
+
+      topSiswa.forEach((siswa, index) => {
+        const isCurrentUser = currentUser && siswa.nama === currentUser.nama;
+        const rankNumClass = index === 0 ? 'gold' : index === 1 ? 'green' : 'brown';
+        const itemTopClass = index === 0 ? 'top-1' : index === 1 ? 'top-2' : '';
+
+        const html = `
+          <div class="leaderboard-item ${itemTopClass}">
+            <div class="rank-num ${rankNumClass}">${index + 1}</div>
+            <div class="user-info">
+              <div class="user-details">
+                <h4>${siswa.nama} ${isCurrentUser ? '🎉 (Kamu)' : ''}</h4>
+                <p>Kelas ${siswa.kelas} • 🔥 ${siswa.streak || 0} Hari Streak</p>
+              </div>
+            </div>
+            <div class="score-badge" style="${index === 1 ? 'background: var(--hijau-fresh); color: white;' : ''}">
+              ${(siswa.points || 0).toLocaleString()} Pts
+            </div>
+          </div>
+        `;
+        leaderboardContainer.insertAdjacentHTML('beforeend', html);
+      });
     }
 
-    updateUI();
-    closeLoginModal();
-  });
+    // Jalankan Leaderboard pertama kali halaman dibuka
+    loadLeaderboard();
 
-  // Update Tampilan UI
-  function updateUI() {
-    if (!currentUser) return;
-
-    document.getElementById('nav-user-text').innerText = currentUser.nama;
-    document.getElementById('lead-user-nama').innerText = `${currentUser.nama} 🎉`;
-    document.getElementById('lead-user-kelas').innerText = currentUser.kelas;
-
-    document.getElementById('user-streak').innerText = currentUser.streak;
-    document.getElementById('user-points').innerText = currentUser.points.toLocaleString() + ' Pts';
-    document.getElementById('user-waste').innerText = currentUser.waste_kg + ' kg';
-    document.getElementById('user-carbon').innerText = currentUser.carbon_t + ' T';
-
-    document.getElementById('lead-streak').innerText = currentUser.streak;
-    document.getElementById('lead-points').innerText = currentUser.points.toLocaleString() + ' Pts';
-  }
-
-  // 3. LOGIKA POIN & STREAK PERMANEN
-  const pointValues = {
-    'memilah': { pts: 100, kg: 2, carbon: 0.1 },
-    'tumbler': { pts: 50, kg: 1, carbon: 0.05 },
-    'bank-sampah': { pts: 150, kg: 3, carbon: 0.2 }
-  };
-
-  const form = document.getElementById('action-form');
-  form.addEventListener('submit', async function(e) {
-    e.preventDefault();
-
-    if (!currentUser) {
-      alert("Silakan Login terlebih dahulu sebelum mengunggah aksi!");
-      openLoginModal();
-      return;
-    }
-
-    const selectedAction = document.getElementById('jenis-aksi').value;
-    if (!selectedAction) return;
-
-    const actionData = pointValues[selectedAction];
-    const today = new Date().toISOString().split('T')[0];
-
-    // Cek penambahan streak harian
-    let newStreak = currentUser.streak;
-    if (currentUser.last_submit_date !== today) {
-      newStreak += 1;
-    }
-
-    const newPoints = currentUser.points + actionData.pts;
-    const newWaste = currentUser.waste_kg + actionData.kg;
-    const newCarbon = (parseFloat(currentUser.carbon_t) + actionData.carbon).toFixed(2);
-
-    // Simpan Perubahan ke Database Cloud Supabase
-    const { data, error } = await supabase
-      .from('siswa')
-      .update({
-        streak: newStreak,
-        points: newPoints,
-        waste_kg: newWaste,
-        carbon_t: newCarbon,
-        last_submit_date: today
-      })
-      .eq('id', currentUser.id)
-      .select()
-      .single();
-
-    if (error) {
-      alert("Gagal memperbarui data: " + error.message);
-      return;
-    }
-
-    currentUser = data;
-    updateUI();
-
-    alert(`🎉 Aksi Berhasil Tersimpan!\n+${actionData.pts} Pts ditambahkan!\nDaily Streak kamu: ${currentUser.streak} Hari!`);
-    form.reset();
-  });
-</script>
-
-    // Nilai Poin Berdasarkan Jenis Aksi Sampah
+    // 4. LOGIKA POIN & STREAK PERMANEN
     const pointValues = {
       'memilah': { pts: 100, kg: 2, carbon: 0.1 },
       'tumbler': { pts: 50, kg: 1, carbon: 0.05 },
       'bank-sampah': { pts: 150, kg: 3, carbon: 0.2 }
     };
 
-    // Proses Form Upload Aksi
-    const form = document.getElementById('action-form');
-    form.addEventListener('submit', function(e) {
-      e.preventDefault();
+    const actionForm = document.getElementById('action-form');
+    if (actionForm) {
+      actionForm.addEventListener('submit', async function(e) {
+        e.preventDefault();
 
-      const selectedAction = document.getElementById('jenis-aksi').value;
-      if (!selectedAction) return;
+        if (!currentUser) {
+          alert("Silakan Login terlebih dahulu sebelum mengunggah aksi!");
+          openLoginModal();
+          return;
+        }
 
-      const actionData = pointValues[selectedAction];
+        const selectedAction = document.getElementById('jenis-aksi').value;
+        if (!selectedAction) return;
 
-      // Tambah Streak +1 jika belum submit hari ini
-      if (!userStats.hasSubmittedToday) {
-        userStats.streak += 1;
-        userStats.hasSubmittedToday = true;
-      }
+        const actionData = pointValues[selectedAction];
+        const today = new Date().toISOString().split('T')[0];
 
-      // Tambahkan Poin dan Statistik Dampak
-      userStats.points += actionData.pts;
-      userStats.wasteKg += actionData.kg;
-      userStats.carbonT = (parseFloat(userStats.carbonT) + actionData.carbon).toFixed(2);
+        // Hitung streak harian
+        let newStreak = currentUser.streak || 0;
+        if (currentUser.last_submit_date !== today) {
+          newStreak += 1;
+        }
 
-      // Perbarui Tampilan Dashboard
-      document.getElementById('user-streak').innerText = userStats.streak;
-      document.getElementById('user-points').innerText = userStats.points.toLocaleString() + ' Pts';
-      document.getElementById('user-waste').innerText = userStats.wasteKg + ' kg';
-      document.getElementById('user-carbon').innerText = userStats.carbonT + ' T';
+        const newPoints = (currentUser.points || 0) + actionData.pts;
+        const newWaste = (currentUser.waste_kg || 0) + actionData.kg;
+        const newCarbon = (parseFloat(currentUser.carbon_t || 0) + actionData.carbon).toFixed(2);
 
-      // Perbarui Tampilan Leaderboard
-      document.getElementById('lead-streak').innerText = userStats.streak;
-      document.getElementById('lead-points').innerText = userStats.points.toLocaleString() + ' Pts';
+        // Simpan Perubahan ke Database Cloud Supabase
+        const { data, error } = await supabaseClient
+          .from('siswa')
+          .update({
+            streak: newStreak,
+            points: newPoints,
+            waste_kg: newWaste,
+            carbon_t: parseFloat(newCarbon),
+            last_submit_date: today
+          })
+          .eq('id', currentUser.id)
+          .select()
+          .single();
 
-      alert(`🎉 Aksi Berhasil!\n+${actionData.pts} Pts telah ditambahkan!\nDaily Streak kamu sekarang: ${userStats.streak} Hari!`);
+        if (error) {
+          alert("Gagal memperbarui data: " + error.message);
+          return;
+        }
 
-      form.reset();
-    });
+        currentUser = data;
+        updateUI();
+        loadLeaderboard();
+
+        alert(`🎉 Aksi Berhasil Tersimpan!\n+${actionData.pts} Pts ditambahkan!\nDaily Streak kamu: ${currentUser.streak} Hari!`);
+        actionForm.reset();
+      });
+    }
   </script>
 
 </body>
 </html>
-
