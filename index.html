@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="id">
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -67,6 +68,11 @@
       100% { left: 125%; }
     }
 
+    @keyframes modalPop {
+      0% { transform: scale(0.8) translateY(20px); opacity: 0; }
+      100% { transform: scale(1) translateY(0); opacity: 1; }
+    }
+
     .animate-float {
       animation: float 4s ease-in-out infinite;
     }
@@ -106,6 +112,7 @@
 
     nav {
       display: flex;
+      align-items: center;
       gap: 20px;
     }
 
@@ -122,6 +129,26 @@
     nav a:hover {
       background-color: var(--kuning-light);
       color: var(--coklat-dark);
+    }
+
+    .btn-login-nav {
+      background: var(--kuning-gold);
+      color: var(--coklat-dark);
+      padding: 8px 20px;
+      border-radius: 20px;
+      font-weight: 800;
+      cursor: pointer;
+      border: none;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      box-shadow: 0 4px 10px rgba(245, 158, 11, 0.3);
+      transition: all 0.2s ease;
+    }
+
+    .btn-login-nav:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 6px 15px rgba(245, 158, 11, 0.5);
     }
 
     /* --------------------------------------------------
@@ -201,7 +228,6 @@
       border-color: var(--kuning-gold);
     }
 
-    /* Streak Card khusus dengan efek Kuning & Hijau */
     .streak-card {
       background: linear-gradient(135deg, var(--kuning-gold) 0%, #D97706 100%);
       color: white;
@@ -230,7 +256,7 @@
     }
 
     /* --------------------------------------------------
-       SEKSI QR CODE (SIAP DIISI GAMBAR)
+       SEKSI QR CODE
     -------------------------------------------------- */
     .qr-section {
       background: #FFFFFF;
@@ -263,7 +289,6 @@
       line-height: 1.5;
     }
 
-    /* Box Tempat Gambar QR Code Kamu */
     .qr-box-container {
       background: var(--coklat-soft);
       border: 2px solid var(--kuning-gold);
@@ -382,7 +407,7 @@
       color: var(--coklat-dark);
     }
 
-    select, input[type="file"] {
+    select, input[type="file"], input[type="text"], input[type="password"] {
       width: 100%;
       padding: 14px 18px;
       border-radius: 14px;
@@ -395,9 +420,10 @@
       transition: all 0.2s ease;
     }
 
-    select:focus {
+    select:focus, input[type="text"]:focus, input[type="password"]:focus {
       border-color: var(--hijau-fresh);
       background-color: #FFFFFF;
+      box-shadow: 0 0 12px var(--hijau-glow);
     }
 
     /* --------------------------------------------------
@@ -489,6 +515,82 @@
       font-size: 0.9rem;
     }
 
+    /* --------------------------------------------------
+       MODAL LOGIN GLOWING & ANIMATED
+    -------------------------------------------------- */
+    .modal-overlay {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: rgba(69, 26, 3, 0.6);
+      backdrop-filter: blur(8px);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      z-index: 999;
+      opacity: 0;
+      pointer-events: none;
+      transition: all 0.3s ease;
+    }
+
+    .modal-overlay.active {
+      opacity: 1;
+      pointer-events: auto;
+    }
+
+    .modal-card {
+      background: #FFFFFF;
+      border-radius: 32px;
+      padding: 40px;
+      width: 90%;
+      max-width: 440px;
+      border: 3px solid var(--kuning-gold);
+      box-shadow: 0 0 35px rgba(245, 158, 11, 0.4), 0 20px 40px rgba(0,0,0,0.3);
+      animation: modalPop 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+      position: relative;
+    }
+
+    .close-modal {
+      position: absolute;
+      top: 20px;
+      right: 24px;
+      background: var(--coklat-soft);
+      border: none;
+      width: 36px;
+      height: 36px;
+      border-radius: 50%;
+      font-weight: 800;
+      color: var(--coklat-dark);
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: all 0.2s ease;
+    }
+
+    .close-modal:hover {
+      background: var(--kuning-gold);
+      color: white;
+    }
+
+    .modal-header {
+      text-align: center;
+      margin-bottom: 25px;
+    }
+
+    .modal-header h2 {
+      font-size: 1.8rem;
+      color: var(--coklat-dark);
+    }
+
+    .modal-header p {
+      color: var(--text-muted);
+      font-size: 0.9rem;
+      margin-top: 4px;
+    }
+
     @media (max-width: 650px) {
       .hero-banner h1 { font-size: 2rem; }
       nav { display: none; }
@@ -499,6 +601,43 @@
 </head>
 <body>
 
+  <div class="modal-overlay active" id="loginModal">
+    <div class="modal-card">
+      <button class="close-modal" onclick="closeLoginModal()"><i class="fa-solid fa-xmark"></i></button>
+      
+      <div class="modal-header">
+        <div class="logo font-display" style="justify-content: center; margin-bottom: 10px;">
+          <i class="fa-solid fa-leaf animate-float"></i> EKO-STREAK
+        </div>
+        <h2 class="font-display">Login Siswa</h2>
+        <p>Masukan identitasmu untuk mulai mengumpulkan poin!</p>
+      </div>
+
+      <form id="loginForm">
+        <div class="form-group">
+          <label for="login-nama"><i class="fa-solid fa-user"></i> Nama Lengkap</label>
+          <input type="text" id="login-nama" placeholder="Contoh: Budi Santoso" required>
+        </div>
+
+        <div class="form-group">
+          <label for="login-password"><i class="fa-solid fa-lock"></i> Password</label>
+          <input type="password" id="login-password" placeholder="••••••••" required>
+        </div>
+
+        <div class="form-group">
+          <label for="login-kelas"><i class="fa-solid fa-graduation-cap"></i> Pilih Kelas</label>
+          <select id="login-kelas" required>
+            <option value="">-- Pilih Kelas --</option>
+            </select>
+        </div>
+
+        <button type="submit" class="btn-3d btn-hijau" style="margin-top: 10px;">
+          <i class="fa-solid fa-right-to-bracket"></i> Masuk Sekarang
+        </button>
+      </form>
+    </div>
+  </div>
+
   <header>
     <div class="logo font-display">
       <i class="fa-solid fa-leaf animate-float"></i> EKO-STREAK
@@ -508,6 +647,9 @@
       <a href="#qr-code">Scan QR</a>
       <a href="#upload">Aksi Sampah</a>
       <a href="#leaderboard">Leaderboard</a>
+      <button class="btn-login-nav" onclick="openLoginModal()">
+        <i class="fa-solid fa-user"></i> <span id="nav-user-text">Login</span>
+      </button>
     </nav>
   </header>
 
@@ -616,8 +758,8 @@
           <div class="rank-num green">2</div>
           <div class="user-info">
             <div class="user-details">
-              <h4>Kamu (Nama Siswa) 🎉</h4>
-              <p>Kelas 10-A • 🔥 <span id="lead-streak">0</span> Hari Streak</p>
+              <h4 id="lead-user-nama">Kamu (Belum Login) 🎉</h4>
+              <p>Kelas <span id="lead-user-kelas">10-A</span> • 🔥 <span id="lead-streak">0</span> Hari Streak</p>
             </div>
           </div>
           <div class="score-badge" id="lead-points" style="background: var(--hijau-fresh); color: white;">0 Pts</div>
@@ -640,14 +782,154 @@
   </div>
 
   <script>
-    // Data Pengguna (Dimulai dari 0)
-    let userStats = {
-      streak: 0,
-      points: 0,
-      wasteKg: 0,
-      carbonT: 0,
-      hasSubmittedToday: false
-    };
+  // 1. KONEKSI SUPABASE
+  const SUPABASE_URL = "ISI_DENGAN_PROJECT_URL_KAMU";
+  const SUPABASE_KEY = "ISI_DENGAN_ANON_KEY_KAMU";
+  const supabase = supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
+
+  // Generate Otomatis Opsi Kelas X.A - XII.J
+  const selectKelas = document.getElementById('login-kelas');
+  const tingkatan = ['X', 'XI', 'XII'];
+  const abjad = ['A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J'];
+
+  tingkatan.forEach(t => {
+    abjad.forEach(a => {
+      const option = document.createElement('option');
+      option.value = `${t}.${a}`;
+      option.textContent = `Kelas ${t}.${a}`;
+      selectKelas.appendChild(option);
+    });
+  });
+
+  function openLoginModal() {
+    document.getElementById('loginModal').classList.add('active');
+  }
+
+  function closeLoginModal() {
+    document.getElementById('loginModal').classList.remove('active');
+  }
+
+  let currentUser = null;
+
+  // 2. LOGIKA LOGIN & REGISTER (Tersimpan di Supabase)
+  document.getElementById('loginForm').addEventListener('submit', async function(e) {
+    e.preventDefault();
+    
+    const inputNama = document.getElementById('login-nama').value.trim();
+    const inputPassword = document.getElementById('login-password').value;
+    const inputKelas = document.getElementById('login-kelas').value;
+
+    // Cek apakah akun siswa sudah terdaftar
+    let { data: existingUser, error } = await supabase
+      .from('siswa')
+      .select('*')
+      .eq('nama', inputNama)
+      .single();
+
+    if (existingUser) {
+      // Verifikasi Password jika nama sudah ada
+      if (existingUser.password !== inputPassword) {
+        alert("⚠️ Password salah! Silakan coba lagi.");
+        return;
+      }
+      currentUser = existingUser;
+      alert(`Selamat datang kembali, ${currentUser.nama}! 👋`);
+    } else {
+      // Buat akun baru jika nama belum ada
+      const { data: newUser, error: insertError } = await supabase
+        .from('siswa')
+        .insert([{ nama: inputNama, password: inputPassword, kelas: inputKelas }])
+        .select()
+        .single();
+
+      if (insertError) {
+        alert("Gagal mendaftar: " + insertError.message);
+        return;
+      }
+      currentUser = newUser;
+      alert(`Pendaftaran berhasil! Selamat bergabung, ${currentUser.nama} (${currentUser.kelas})! 🎉`);
+    }
+
+    updateUI();
+    closeLoginModal();
+  });
+
+  // Update Tampilan UI
+  function updateUI() {
+    if (!currentUser) return;
+
+    document.getElementById('nav-user-text').innerText = currentUser.nama;
+    document.getElementById('lead-user-nama').innerText = `${currentUser.nama} 🎉`;
+    document.getElementById('lead-user-kelas').innerText = currentUser.kelas;
+
+    document.getElementById('user-streak').innerText = currentUser.streak;
+    document.getElementById('user-points').innerText = currentUser.points.toLocaleString() + ' Pts';
+    document.getElementById('user-waste').innerText = currentUser.waste_kg + ' kg';
+    document.getElementById('user-carbon').innerText = currentUser.carbon_t + ' T';
+
+    document.getElementById('lead-streak').innerText = currentUser.streak;
+    document.getElementById('lead-points').innerText = currentUser.points.toLocaleString() + ' Pts';
+  }
+
+  // 3. LOGIKA POIN & STREAK PERMANEN
+  const pointValues = {
+    'memilah': { pts: 100, kg: 2, carbon: 0.1 },
+    'tumbler': { pts: 50, kg: 1, carbon: 0.05 },
+    'bank-sampah': { pts: 150, kg: 3, carbon: 0.2 }
+  };
+
+  const form = document.getElementById('action-form');
+  form.addEventListener('submit', async function(e) {
+    e.preventDefault();
+
+    if (!currentUser) {
+      alert("Silakan Login terlebih dahulu sebelum mengunggah aksi!");
+      openLoginModal();
+      return;
+    }
+
+    const selectedAction = document.getElementById('jenis-aksi').value;
+    if (!selectedAction) return;
+
+    const actionData = pointValues[selectedAction];
+    const today = new Date().toISOString().split('T')[0];
+
+    // Cek penambahan streak harian
+    let newStreak = currentUser.streak;
+    if (currentUser.last_submit_date !== today) {
+      newStreak += 1;
+    }
+
+    const newPoints = currentUser.points + actionData.pts;
+    const newWaste = currentUser.waste_kg + actionData.kg;
+    const newCarbon = (parseFloat(currentUser.carbon_t) + actionData.carbon).toFixed(2);
+
+    // Simpan Perubahan ke Database Cloud Supabase
+    const { data, error } = await supabase
+      .from('siswa')
+      .update({
+        streak: newStreak,
+        points: newPoints,
+        waste_kg: newWaste,
+        carbon_t: newCarbon,
+        last_submit_date: today
+      })
+      .eq('id', currentUser.id)
+      .select()
+      .single();
+
+    if (error) {
+      alert("Gagal memperbarui data: " + error.message);
+      return;
+    }
+
+    currentUser = data;
+    updateUI();
+
+    alert(`🎉 Aksi Berhasil Tersimpan!\n+${actionData.pts} Pts ditambahkan!\nDaily Streak kamu: ${currentUser.streak} Hari!`);
+    form.reset();
+  });
+</script>
 
     // Nilai Poin Berdasarkan Jenis Aksi Sampah
     const pointValues = {
@@ -656,8 +938,8 @@
       'bank-sampah': { pts: 150, kg: 3, carbon: 0.2 }
     };
 
+    // Proses Form Upload Aksi
     const form = document.getElementById('action-form');
-
     form.addEventListener('submit', function(e) {
       e.preventDefault();
 
@@ -677,22 +959,22 @@
       userStats.wasteKg += actionData.kg;
       userStats.carbonT = (parseFloat(userStats.carbonT) + actionData.carbon).toFixed(2);
 
-      // Perbarui Tampilan di Layar (Dashboard)
+      // Perbarui Tampilan Dashboard
       document.getElementById('user-streak').innerText = userStats.streak;
       document.getElementById('user-points').innerText = userStats.points.toLocaleString() + ' Pts';
       document.getElementById('user-waste').innerText = userStats.wasteKg + ' kg';
       document.getElementById('user-carbon').innerText = userStats.carbonT + ' T';
 
-      // Perbarui Tampilan di Leaderboard
+      // Perbarui Tampilan Leaderboard
       document.getElementById('lead-streak').innerText = userStats.streak;
       document.getElementById('lead-points').innerText = userStats.points.toLocaleString() + ' Pts';
 
       alert(`🎉 Aksi Berhasil!\n+${actionData.pts} Pts telah ditambahkan!\nDaily Streak kamu sekarang: ${userStats.streak} Hari!`);
 
-      // Reset form input foto & pilihan
       form.reset();
     });
   </script>
 
 </body>
 </html>
+
