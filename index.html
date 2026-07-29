@@ -67,11 +67,6 @@
       100% { left: 125%; }
     }
 
-    @keyframes popIn {
-      0% { transform: scale(0.9); opacity: 0; }
-      100% { transform: scale(1); opacity: 1; }
-    }
-
     .animate-float {
       animation: float 4s ease-in-out infinite;
     }
@@ -406,7 +401,7 @@
     }
 
     /* --------------------------------------------------
-       LEADERBOARD INTERAKTIF (WARNA & DESAIN ASIK)
+       LEADERBOARD INTERAKTIF
     -------------------------------------------------- */
     .leaderboard-container {
       background: #FFFFFF;
@@ -441,7 +436,6 @@
       box-shadow: 0 8px 20px var(--shadow-color);
     }
 
-    /* Style Khusus Top 3 */
     .top-1 {
       background: linear-gradient(90deg, #FFFBEB 0%, #FEF3C7 100%);
       border: 2px solid var(--kuning-gold);
@@ -495,7 +489,6 @@
       font-size: 0.9rem;
     }
 
-    /* Responsive untuk Mobile */
     @media (max-width: 650px) {
       .hero-banner h1 { font-size: 2rem; }
       nav { display: none; }
@@ -529,7 +522,7 @@
       
       <div class="card streak-card animate-glow">
         <span class="streak-badge"><i class="fa-solid fa-fire"></i> DAILY STREAK</span>
-        <div class="streak-number font-display">12</div>
+        <div class="streak-number font-display" id="user-streak">0</div>
         <p style="font-weight: 800; font-size: 1.1rem;">Hari Berturut-Turut!</p>
       </div>
 
@@ -538,13 +531,13 @@
           <i class="fa-solid fa-seedling" style="color: var(--hijau-fresh);"></i> Dampak Lingkungan
         </h3>
         <p style="margin-bottom: 12px; font-weight: 600;">
-          <strong>Total Sampah Terkelola:</strong> <span style="color: var(--hijau-dark);">45 kg</span>
+          <strong>Total Sampah Terkelola:</strong> <span id="user-waste" style="color: var(--hijau-dark);">0 kg</span>
         </p>
         <p style="margin-bottom: 12px; font-weight: 600;">
-          <strong>Estimasi Kredit Karbon:</strong> <span style="color: var(--hijau-dark);">1.5 T</span>
+          <strong>Estimasi Kredit Karbon:</strong> <span id="user-carbon" style="color: var(--hijau-dark);">0 T</span>
         </p>
         <p style="font-weight: 600;">
-          <strong>Total Poin Kamu:</strong> <span style="color: var(--kuning-gold); font-weight: 800; font-size: 1.1rem;">1,250 Pts</span>
+          <strong>Total Poin Kamu:</strong> <span id="user-points" style="color: var(--kuning-gold); font-weight: 800; font-size: 1.1rem;">0 Pts</span>
         </p>
       </div>
 
@@ -578,14 +571,14 @@
         <i class="fa-solid fa-camera" style="color: var(--hijau-fresh);"></i> Upload Foto Aksi Hari Ini
       </h2>
       
-      <form onsubmit="alert('Aksi berhasil didokumentasikan! Poin & Streak kamu bertambah 🎉'); return false;">
+      <form id="action-form">
         <div class="form-group">
           <label for="jenis-aksi">Pilih Aktivitas Pengelolaan Sampah:</label>
           <select id="jenis-aksi" required>
             <option value="">-- Pilih Jenis Aksi --</option>
-            <option value="1">Memilah Sampah Organik & Anorganik</option>
-            <option value="2">Membawa Botol Minum / Tumbler Sendiri</option>
-            <option value="3">Menyetor Sampah Plastik ke Bank Sampah</option>
+            <option value="memilah">Memilah Sampah Organik & Anorganik (+100 Pts)</option>
+            <option value="tumbler">Membawa Botol Minum / Tumbler Sendiri (+50 Pts)</option>
+            <option value="bank-sampah">Menyetor Sampah Plastik ke Bank Sampah (+150 Pts)</option>
           </select>
         </div>
 
@@ -619,15 +612,15 @@
           <div class="score-badge">1,500 Pts</div>
         </div>
 
-        <div class="leaderboard-item top-2">
+        <div class="leaderboard-item top-2" id="user-leaderboard-card">
           <div class="rank-num green">2</div>
           <div class="user-info">
             <div class="user-details">
               <h4>Kamu (Nama Siswa) 🎉</h4>
-              <p>Kelas 10-A • 🔥 12 Hari Streak</p>
+              <p>Kelas 10-A • 🔥 <span id="lead-streak">0</span> Hari Streak</p>
             </div>
           </div>
-          <div class="score-badge" style="background: var(--hijau-fresh); color: white;">1,250 Pts</div>
+          <div class="score-badge" id="lead-points" style="background: var(--hijau-fresh); color: white;">0 Pts</div>
         </div>
 
         <div class="leaderboard-item">
@@ -635,16 +628,71 @@
           <div class="user-info">
             <div class="user-details">
               <h4>Rina Marlina</h4>
-              <p>Kelas 10-C • 🔥 10 Hari Streak</p>
+              <p>Kelas 10-C • 🔥 0 Hari Streak</p>
             </div>
           </div>
-          <div class="score-badge">980 Pts</div>
+          <div class="score-badge">0 Pts</div>
         </div>
 
       </div>
     </section>
 
   </div>
+
+  <script>
+    // Data Pengguna (Dimulai dari 0)
+    let userStats = {
+      streak: 0,
+      points: 0,
+      wasteKg: 0,
+      carbonT: 0,
+      hasSubmittedToday: false
+    };
+
+    // Nilai Poin Berdasarkan Jenis Aksi Sampah
+    const pointValues = {
+      'memilah': { pts: 100, kg: 2, carbon: 0.1 },
+      'tumbler': { pts: 50, kg: 1, carbon: 0.05 },
+      'bank-sampah': { pts: 150, kg: 3, carbon: 0.2 }
+    };
+
+    const form = document.getElementById('action-form');
+
+    form.addEventListener('submit', function(e) {
+      e.preventDefault();
+
+      const selectedAction = document.getElementById('jenis-aksi').value;
+      if (!selectedAction) return;
+
+      const actionData = pointValues[selectedAction];
+
+      // Tambah Streak +1 jika belum submit hari ini
+      if (!userStats.hasSubmittedToday) {
+        userStats.streak += 1;
+        userStats.hasSubmittedToday = true;
+      }
+
+      // Tambahkan Poin dan Statistik Dampak
+      userStats.points += actionData.pts;
+      userStats.wasteKg += actionData.kg;
+      userStats.carbonT = (parseFloat(userStats.carbonT) + actionData.carbon).toFixed(2);
+
+      // Perbarui Tampilan di Layar (Dashboard)
+      document.getElementById('user-streak').innerText = userStats.streak;
+      document.getElementById('user-points').innerText = userStats.points.toLocaleString() + ' Pts';
+      document.getElementById('user-waste').innerText = userStats.wasteKg + ' kg';
+      document.getElementById('user-carbon').innerText = userStats.carbonT + ' T';
+
+      // Perbarui Tampilan di Leaderboard
+      document.getElementById('lead-streak').innerText = userStats.streak;
+      document.getElementById('lead-points').innerText = userStats.points.toLocaleString() + ' Pts';
+
+      alert(`🎉 Aksi Berhasil!\n+${actionData.pts} Pts telah ditambahkan!\nDaily Streak kamu sekarang: ${userStats.streak} Hari!`);
+
+      // Reset form input foto & pilihan
+      form.reset();
+    });
+  </script>
 
 </body>
 </html>
