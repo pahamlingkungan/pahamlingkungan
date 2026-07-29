@@ -4,276 +4,644 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>EKO-STREAK - Kelola Sampah Lebih Seru!</title>
+  
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;600;700;800&family=Outfit:wght@700;800;900&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
   <style>
-    /* Styling Dasar & Variabel Warna */
+    /* --------------------------------------------------
+       VARIABEL WARNA UTAMA: Putih, Kuning, Coklat, Hijau
+    -------------------------------------------------- */
     :root {
-      --primary-blue: #0b2545;
-      --accent-green: #2ec4b6;
-      --bright-green: #20bf55;
-      --yellow-gold: #ffb703;
-      --bg-light: #f4f7f6;
-      --card-bg: #ffffff;
-      --text-color: #1d2d44;
+      --bg-light: #FAFAF7;         /* Putih Warm / Cream Soft */
+      --card-bg: #FFFFFF;          /* Putih Bersih */
+      
+      --hijau-fresh: #22C55E;      /* Hijau Utama */
+      --hijau-dark: #15803D;       /* Hijau Tua */
+      --hijau-glow: rgba(34, 197, 94, 0.3);
+      
+      --kuning-gold: #F59E0B;      /* Kuning Utama */
+      --kuning-light: #FEF3C7;     /* Kuning Soft */
+      
+      --coklat-dark: #451A03;      /* Coklat Tua untuk Teks Utama */
+      --coklat-warm: #78350F;      /* Coklat Sedang */
+      --coklat-soft: #FFFBEB;      /* Background Coklat Sangat Muda */
+      
+      --text-muted: #854D0E;       /* Coklat Muda untuk Subteks */
+      --shadow-color: rgba(69, 26, 3, 0.08);
     }
 
     * {
       box-sizing: border-box;
       margin: 0;
       padding: 0;
-      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      font-family: 'Plus Jakarta Sans', sans-serif;
     }
 
     body {
       background-color: var(--bg-light);
-      color: var(--text-color);
-      padding-bottom: 40px;
+      color: var(--coklat-dark);
+      padding-bottom: 80px;
+      overflow-x: hidden;
     }
 
-    /* Header & Navigasi */
+    h1, h2, h3, .font-display {
+      font-family: 'Outfit', sans-serif;
+    }
+
+    /* --------------------------------------------------
+       ANIMASI EYE-CATCHING (HOOKING EYE)
+    -------------------------------------------------- */
+    @keyframes float {
+      0%, 100% { transform: translateY(0px) rotate(0deg); }
+      50% { transform: translateY(-10px) rotate(2deg); }
+    }
+
+    @keyframes pulseGlow {
+      0%, 100% { box-shadow: 0 0 15px rgba(245, 158, 11, 0.4); }
+      50% { box-shadow: 0 0 30px rgba(245, 158, 11, 0.8); }
+    }
+
+    @keyframes shine {
+      0% { left: -100%; }
+      100% { left: 125%; }
+    }
+
+    @keyframes popIn {
+      0% { transform: scale(0.9); opacity: 0; }
+      100% { transform: scale(1); opacity: 1; }
+    }
+
+    .animate-float {
+      animation: float 4s ease-in-out infinite;
+    }
+
+    .animate-glow {
+      animation: pulseGlow 2.5s infinite;
+    }
+
+    /* --------------------------------------------------
+       NAVBAR / HEADER
+    -------------------------------------------------- */
     header {
-      background-color: var(--primary-blue);
-      color: white;
-      padding: 15px 5%;
+      background: rgba(255, 255, 255, 0.9);
+      backdrop-filter: blur(12px);
+      border-bottom: 3px solid var(--kuning-gold);
+      padding: 16px 8%;
       display: flex;
       justify-content: space-between;
       align-items: center;
-      box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+      position: sticky;
+      top: 0;
+      z-index: 100;
     }
 
     .logo {
-      font-size: 1.5rem;
-      font-weight: bold;
-      color: var(--bright-green);
+      font-size: 1.6rem;
+      font-weight: 900;
+      color: var(--hijau-dark);
       display: flex;
       align-items: center;
-      gap: 8px;
+      gap: 10px;
+    }
+
+    .logo i {
+      color: var(--kuning-gold);
+    }
+
+    nav {
+      display: flex;
+      gap: 20px;
     }
 
     nav a {
-      color: white;
+      color: var(--coklat-warm);
       text-decoration: none;
-      margin-left: 20px;
-      font-weight: 600;
+      font-weight: 700;
+      font-size: 0.95rem;
+      padding: 8px 16px;
+      border-radius: 20px;
+      transition: all 0.2s ease;
     }
 
-    /* Container Utama */
+    nav a:hover {
+      background-color: var(--kuning-light);
+      color: var(--coklat-dark);
+    }
+
+    /* --------------------------------------------------
+       HERO BANNER & TEXT INTERAKTIF
+    -------------------------------------------------- */
+    .hero-banner {
+      background: linear-gradient(135deg, #451A03 0%, #78350F 100%);
+      color: white;
+      padding: 70px 8% 100px 8%;
+      text-align: center;
+      border-radius: 0 0 40px 40px;
+      margin-bottom: -50px;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .hero-banner::before {
+      content: '';
+      position: absolute;
+      top: -50%;
+      left: -50%;
+      width: 200%;
+      height: 200%;
+      background: radial-gradient(circle, rgba(34, 197, 94, 0.15) 0%, transparent 60%);
+      pointer-events: none;
+    }
+
+    .hero-banner h1 {
+      font-size: 3rem;
+      font-weight: 900;
+      margin-bottom: 15px;
+      background: linear-gradient(to right, #F59E0B, #22C55E);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      text-shadow: 0 10px 20px rgba(0,0,0,0.2);
+    }
+
+    .hero-banner p {
+      color: var(--kuning-light);
+      font-size: 1.2rem;
+      max-width: 650px;
+      margin: 0 auto;
+      line-height: 1.6;
+    }
+
     .container {
-      max-width: 1000px;
-      margin: 20px auto;
+      max-width: 1050px;
+      margin: 0 auto;
       padding: 0 20px;
+      position: relative;
+      z-index: 10;
     }
 
-    /* Kartu Streak & Dashboard */
+    /* --------------------------------------------------
+       CARD STYLES & DASHBOARD GRID
+    -------------------------------------------------- */
     .dashboard-grid {
       display: grid;
       grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-      gap: 20px;
-      margin-bottom: 25px;
+      gap: 25px;
+      margin-bottom: 35px;
     }
 
     .card {
       background: var(--card-bg);
-      border-radius: 16px;
-      padding: 20px;
-      box-shadow: 0 4px 12px rgba(0,0,0,0.05);
-      border: 1px solid #e0e0e0;
+      border-radius: 24px;
+      padding: 28px;
+      box-shadow: 0 12px 30px var(--shadow-color);
+      border: 2px solid #FEF3C7;
+      transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+      position: relative;
     }
 
+    .card:hover {
+      transform: translateY(-6px);
+      box-shadow: 0 20px 40px rgba(69, 26, 3, 0.12);
+      border-color: var(--kuning-gold);
+    }
+
+    /* Streak Card khusus dengan efek Kuning & Hijau */
     .streak-card {
-      background: linear-gradient(135deg, var(--primary-blue), #134074);
+      background: linear-gradient(135deg, var(--kuning-gold) 0%, #D97706 100%);
       color: white;
       text-align: center;
+      border: none;
+    }
+
+    .streak-badge {
+      background: rgba(255, 255, 255, 0.25);
+      backdrop-filter: blur(5px);
+      padding: 6px 16px;
+      border-radius: 30px;
+      font-weight: 800;
+      font-size: 0.85rem;
+      display: inline-block;
+      letter-spacing: 1px;
     }
 
     .streak-number {
-      font-size: 3.5rem;
-      font-weight: bold;
-      color: var(--yellow-gold);
-      margin: 10px 0;
+      font-size: 4.5rem;
+      font-weight: 900;
+      color: #FFFFFF;
+      line-height: 1;
+      margin: 15px 0 5px 0;
+      text-shadow: 0 4px 12px rgba(69, 26, 3, 0.3);
     }
 
-    /* Form Upload & Aksi */
-    .upload-section {
-      background-color: white;
+    /* --------------------------------------------------
+       SEKSI QR CODE (SIAP DIISI GAMBAR)
+    -------------------------------------------------- */
+    .qr-section {
+      background: #FFFFFF;
+      border: 3px dashed var(--kuning-gold);
+      border-radius: 24px;
+      padding: 30px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 25px;
+      margin-bottom: 35px;
+      box-shadow: 0 10px 25px var(--shadow-color);
+      flex-wrap: wrap;
+    }
+
+    .qr-info {
+      flex: 1;
+      min-width: 250px;
+    }
+
+    .qr-info h2 {
+      color: var(--coklat-dark);
+      font-size: 1.6rem;
+      margin-bottom: 8px;
+    }
+
+    .qr-info p {
+      color: var(--text-muted);
+      font-size: 0.95rem;
+      line-height: 1.5;
+    }
+
+    /* Box Tempat Gambar QR Code Kamu */
+    .qr-box-container {
+      background: var(--coklat-soft);
+      border: 2px solid var(--kuning-gold);
+      padding: 15px;
+      border-radius: 20px;
+      text-align: center;
+      width: 180px;
+      height: 180px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      position: relative;
+    }
+
+    .qr-image-placeholder {
+      width: 100%;
+      height: 100%;
+      object-fit: contain;
+      border-radius: 12px;
+    }
+
+    /* --------------------------------------------------
+       TOMBOL AR TIKTOK INTERAKTIF
+    -------------------------------------------------- */
+    .ar-section {
+      background: linear-gradient(135deg, var(--hijau-fresh) 0%, var(--hijau-dark) 100%);
+      color: white;
+      border-radius: 24px;
+      padding: 30px 35px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 20px;
+      margin-bottom: 35px;
+      box-shadow: 0 15px 30px var(--hijau-glow);
+      flex-wrap: wrap;
+    }
+
+    /* --------------------------------------------------
+       TOMBOL 3D / BUTTONS FUN & INTERAKTIF
+    -------------------------------------------------- */
+    .btn-3d {
+      position: relative;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 10px;
+      padding: 16px 32px;
+      font-weight: 800;
+      font-size: 1.05rem;
+      color: var(--coklat-dark);
+      background-color: var(--kuning-gold);
+      border: none;
       border-radius: 16px;
-      padding: 20px;
-      margin-bottom: 25px;
-      border: 2px dashed var(--bright-green);
+      cursor: pointer;
+      text-decoration: none;
+      box-shadow: 0 6px 0 #D97706, 0 12px 20px rgba(0,0,0,0.15);
+      transition: all 0.15s ease;
+      overflow: hidden;
+    }
+
+    .btn-3d::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: -100%;
+      width: 100%;
+      height: 100%;
+      background: linear-gradient(90deg, transparent, rgba(255,255,255,0.4), transparent);
+      animation: shine 3s infinite;
+    }
+
+    .btn-3d:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 8px 0 #D97706, 0 15px 25px rgba(0,0,0,0.2);
+    }
+
+    .btn-3d:active {
+      transform: translateY(4px);
+      box-shadow: 0 2px 0 #D97706, 0 5px 10px rgba(0,0,0,0.15);
+    }
+
+    .btn-hijau {
+      background-color: var(--hijau-fresh);
+      color: white;
+      box-shadow: 0 6px 0 var(--hijau-dark), 0 12px 20px var(--hijau-glow);
+      width: 100%;
+    }
+
+    .btn-hijau:hover {
+      box-shadow: 0 8px 0 var(--hijau-dark), 0 15px 25px var(--hijau-glow);
+    }
+
+    /* --------------------------------------------------
+       FORM UPLOAD
+    -------------------------------------------------- */
+    .upload-section {
+      background: #FFFFFF;
+      border-radius: 24px;
+      padding: 32px;
+      margin-bottom: 35px;
+      border: 2px solid #FEF3C7;
+      box-shadow: 0 12px 30px var(--shadow-color);
     }
 
     .form-group {
-      margin-bottom: 15px;
+      margin-bottom: 20px;
     }
 
     label {
       display: block;
-      margin-bottom: 5px;
-      font-weight: bold;
+      margin-bottom: 8px;
+      font-weight: 800;
+      font-size: 0.95rem;
+      color: var(--coklat-dark);
     }
 
-    input[type="text"], input[type="file"], select {
+    select, input[type="file"] {
       width: 100%;
-      padding: 10px;
-      border-radius: 8px;
-      border: 1px solid #ccc;
+      padding: 14px 18px;
+      border-radius: 14px;
+      border: 2px solid #FDE68A;
+      background-color: var(--coklat-soft);
+      font-size: 0.95rem;
+      color: var(--coklat-dark);
+      font-weight: 600;
+      outline: none;
+      transition: all 0.2s ease;
     }
 
-    .btn {
-      background-color: var(--bright-green);
-      color: white;
-      padding: 12px 20px;
-      border: none;
-      border-radius: 8px;
-      font-weight: bold;
-      cursor: pointer;
-      width: 100%;
-      font-size: 1rem;
-      transition: background 0.2s;
+    select:focus {
+      border-color: var(--hijau-fresh);
+      background-color: #FFFFFF;
     }
 
-    .btn:hover {
-      background-color: #1b9e46;
+    /* --------------------------------------------------
+       LEADERBOARD INTERAKTIF (WARNA & DESAIN ASIK)
+    -------------------------------------------------- */
+    .leaderboard-container {
+      background: #FFFFFF;
+      border-radius: 24px;
+      padding: 32px;
+      box-shadow: 0 12px 30px var(--shadow-color);
+      border: 2px solid #FEF3C7;
     }
 
-    /* Seksi AR TikTok */
-    .ar-section {
-      background: linear-gradient(135deg, #00f2fe, #4facfe);
-      color: white;
-      border-radius: 16px;
-      padding: 20px;
-      text-align: center;
-      margin-bottom: 25px;
+    .leaderboard-list {
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+      margin-top: 20px;
     }
 
-    .btn-tiktok {
-      background-color: #000;
-      color: white;
-      text-decoration: none;
-      display: inline-block;
-      padding: 10px 20px;
+    .leaderboard-item {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 16px 20px;
+      border-radius: 18px;
+      background-color: var(--bg-light);
+      border: 2px solid transparent;
+      transition: all 0.25s ease;
+    }
+
+    .leaderboard-item:hover {
+      transform: scale(1.02);
+      border-color: var(--kuning-gold);
+      background-color: #FFFFFF;
+      box-shadow: 0 8px 20px var(--shadow-color);
+    }
+
+    /* Style Khusus Top 3 */
+    .top-1 {
+      background: linear-gradient(90deg, #FFFBEB 0%, #FEF3C7 100%);
+      border: 2px solid var(--kuning-gold);
+    }
+
+    .top-2 {
+      background: linear-gradient(90deg, #F0FDF4 0%, #DCFCE7 100%);
+      border: 2px solid var(--hijau-fresh);
+    }
+
+    .rank-num {
+      width: 36px;
+      height: 36px;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-weight: 900;
+      font-size: 1.1rem;
+      font-family: 'Outfit', sans-serif;
+    }
+
+    .rank-num.gold { background: var(--kuning-gold); color: white; }
+    .rank-num.green { background: var(--hijau-fresh); color: white; }
+    .rank-num.brown { background: var(--coklat-warm); color: white; }
+
+    .user-info {
+      display: flex;
+      align-items: center;
+      gap: 15px;
+      flex: 1;
+      margin-left: 15px;
+    }
+
+    .user-details h4 {
+      font-size: 1.05rem;
+      color: var(--coklat-dark);
+    }
+
+    .user-details p {
+      font-size: 0.85rem;
+      color: var(--text-muted);
+    }
+
+    .score-badge {
+      background: var(--coklat-dark);
+      color: var(--kuning-gold);
+      padding: 6px 14px;
       border-radius: 20px;
-      margin-top: 10px;
-      font-weight: bold;
+      font-weight: 800;
+      font-size: 0.9rem;
     }
 
-    /* Leaderboard */
-    .leaderboard-table {
-      width: 100%;
-      border-collapse: collapse;
-      margin-top: 10px;
-    }
-
-    .leaderboard-table th, .leaderboard-table td {
-      padding: 12px;
-      text-align: left;
-      border-bottom: 1px solid #eee;
-    }
-
-    .leaderboard-table th {
-      background-color: #f8f9fa;
-      color: var(--primary-blue);
-    }
-
-    .badge-rank {
-      background-color: var(--yellow-gold);
-      color: white;
-      padding: 2px 8px;
-      border-radius: 12px;
-      font-size: 0.8rem;
+    /* Responsive untuk Mobile */
+    @media (max-width: 650px) {
+      .hero-banner h1 { font-size: 2rem; }
+      nav { display: none; }
+      .qr-section, .ar-section { text-align: center; justify-content: center; }
+      .qr-box-container { margin: 0 auto; }
     }
   </style>
 </head>
 <body>
 
   <header>
-    <div class="logo">🌱 EKO-STREAK</div>
+    <div class="logo font-display">
+      <i class="fa-solid fa-leaf animate-float"></i> EKO-STREAK
+    </div>
     <nav>
       <a href="#dashboard">Dashboard</a>
+      <a href="#qr-code">Scan QR</a>
       <a href="#upload">Aksi Sampah</a>
-      <a href="#ar-filter">Filter TikTok</a>
       <a href="#leaderboard">Leaderboard</a>
     </nav>
   </header>
 
+  <section class="hero-banner">
+    <h1 class="font-display">Keep Your Streak, Save the Planet!</h1>
+    <p>Ubah kebiasaan membuang sampah jadi game seru. Kumpulkan poin, jaga streak harianmu, dan jadilah pahlawan lingkungan sekolah!</p>
+  </section>
+
   <div class="container">
 
-    <section id="dashboard" class="dashboard-grid">
-      <div class="card streak-card">
-        <h3>🔥 Streak Saya</h3>
-        <div class="streak-number">12 Hari</div>
-        <p>Jaga terus aksi kelola sampahmu setiap hari!</p>
+    <div id="dashboard" class="dashboard-grid">
+      
+      <div class="card streak-card animate-glow">
+        <span class="streak-badge"><i class="fa-solid fa-fire"></i> DAILY STREAK</span>
+        <div class="streak-number font-display">12</div>
+        <p style="font-weight: 800; font-size: 1.1rem;">Hari Berturut-Turut!</p>
       </div>
 
       <div class="card">
-        <h3>📊 Total Dampak Lingkungan</h3>
-        <p style="margin-top: 15px;"><strong>Sampah Terkelola:</strong> 45 kg</p>
-        <p style="margin-top: 10px;"><strong>Estimasi Poin:</strong> 1,250 Pts</p>
-        <p style="margin-top: 10px;"><strong>Peringkat Saat Ini:</strong> #2 di Kelas</p>
+        <h3 class="font-display" style="margin-bottom: 18px; color: var(--coklat-dark); font-size: 1.3rem;">
+          <i class="fa-solid fa-seedling" style="color: var(--hijau-fresh);"></i> Dampak Lingkungan
+        </h3>
+        <p style="margin-bottom: 12px; font-weight: 600;">
+          <strong>Total Sampah Terkelola:</strong> <span style="color: var(--hijau-dark);">45 kg</span>
+        </p>
+        <p style="margin-bottom: 12px; font-weight: 600;">
+          <strong>Estimasi Kredit Karbon:</strong> <span style="color: var(--hijau-dark);">1.5 T</span>
+        </p>
+        <p style="font-weight: 600;">
+          <strong>Total Poin Kamu:</strong> <span style="color: var(--kuning-gold); font-weight: 800; font-size: 1.1rem;">1,250 Pts</span>
+        </p>
+      </div>
+
+    </div>
+
+    <section id="qr-code" class="qr-section">
+      <div class="qr-info">
+        <h2 class="font-display"><i class="fa-solid fa-qrcode" style="color: var(--kuning-gold);"></i> Scan QR Code Poster</h2>
+        <p>Temukan poster EKO-STREAK di area tempat sampah sekolahmu. Scan QR code untuk langsung memulai pemotretan aksi sampah harianmu!</p>
+      </div>
+      
+      <div class="qr-box-container">
+        <img class="qr-image-placeholder" src="https://api.qrserver.com/v1/create-qr-code/?size=150x150&data=EKO-STREAK-DEMO" alt="QR Code Eko-Streak">
       </div>
     </section>
 
-    <section id="ar-filter" class="ar-section">
-      <h2>📸 Akses Filter AR TikTok</h2>
-      <p>Gunakan filter AR EKO-STREAK di TikTok saat membuat konten pembuangan sampah agar lebih keren!</p>
-      <a href="https://www.tiktok.com" target="_blank" class="btn-tiktok">✨ Buka Filter AR di TikTok</a>
+    <section class="ar-section">
+      <div>
+        <h2 class="font-display" style="font-size: 1.5rem; margin-bottom: 6px;">
+          <i class="fa-brands fa-tiktok"></i> TikTok AR Filter
+        </h2>
+        <p style="opacity: 0.9;">Bikin konten aksi sampahmu makin keren memakai AR Filter resmi!</p>
+      </div>
+      <a href="https://www.tiktok.com" target="_blank" class="btn-3d animate-float">
+        <i class="fa-solid fa-wand-magic-sparkles"></i> Coba Filter TikTok
+      </a>
     </section>
 
     <section id="upload" class="upload-section">
-      <h2 style="margin-bottom: 15px; color: var(--primary-blue);">📸 Dokumentasikan Aksi Sampahmu</h2>
-      <form onsubmit="alert('Bukti foto berhasil diunggah! Poin dan Streak kamu bertambah.'); return false;">
+      <h2 class="font-display" style="margin-bottom: 20px; color: var(--coklat-dark); font-size: 1.4rem;">
+        <i class="fa-solid fa-camera" style="color: var(--hijau-fresh);"></i> Upload Foto Aksi Hari Ini
+      </h2>
+      
+      <form onsubmit="alert('Aksi berhasil didokumentasikan! Poin & Streak kamu bertambah 🎉'); return false;">
         <div class="form-group">
-          <label for="jenis-sampah">Jenis Aktivitas Sampah:</label>
-          <select id="jenis-sampah" required>
-            <option value="">-- Pilih Aktivitas --</option>
-            <option value="organik">Memilah Sampah Organik & Anorganik</option>
-            <option value="tumbler">Membawa Tumbler / Botol Minum Sendiri</option>
-            <option value="recycle">Menyetor Sampah ke Bank Sampah Sekolah</option>
+          <label for="jenis-aksi">Pilih Aktivitas Pengelolaan Sampah:</label>
+          <select id="jenis-aksi" required>
+            <option value="">-- Pilih Jenis Aksi --</option>
+            <option value="1">Memilah Sampah Organik & Anorganik</option>
+            <option value="2">Membawa Botol Minum / Tumbler Sendiri</option>
+            <option value="3">Menyetor Sampah Plastik ke Bank Sampah</option>
           </select>
         </div>
 
         <div class="form-group">
-          <label for="foto">Unggah Foto Bukti Aksi:</label>
+          <label for="foto">Unggah Foto Bukti:</label>
           <input type="file" id="foto" accept="image/*" required>
         </div>
 
-        <button type="submit" class="btn">🚀 Kirim & Kumpulkan Poin!</button>
+        <button type="submit" class="btn-3d btn-hijau">
+          <i class="fa-solid fa-rocket"></i> Kirim & Klaim Poin!
+        </button>
       </form>
     </section>
 
-    <section id="leaderboard" class="card">
-      <h2 style="color: var(--primary-blue);">🏆 Leaderboard Siswa</h2>
-      <p style="color: #666; font-size: 0.9rem;">Siswa dengan poin dan streak tertinggi minggu ini</p>
-      
-      <table class="leaderboard-table">
-        <thead>
-          <tr>
-            <th>Posisi</th>
-            <th>Nama Siswa</th>
-            <th>Streak</th>
-            <th>Total Poin</th>
-          </tr>
-        </thead>
-        <tbody>
-          <tr>
-            <td><span class="badge-rank">🥇 1</span></td>
-            <td><strong>Budi Santoso</strong> (Kelas 10-A)</td>
-            <td>14 Hari</td>
-            <td>1,500 Pts</td>
-          </tr>
-          <tr style="background-color: #e8f5e9;">
-            <td><span class="badge-rank" style="background-color: #c0c0c0;">🥈 2</span></td>
-            <td><strong>Anda (Nama Siswa)</strong> (Kelas 10-A)</td>
-            <td>12 Hari</td>
-            <td>1,250 Pts</td>
-          </tr>
-          <tr>
-            <td><span class="badge-rank" style="background-color: #cd7f32;">🥉 3</span></td>
-            <td><strong>Rina Marlina</strong> (Kelas 10-C)</td>
-            <td>10 Hari</td>
-            <td>980 Pts</td>
-          </tr>
-        </tbody>
-      </table>
+    <section id="leaderboard" class="leaderboard-container">
+      <h2 class="font-display" style="color: var(--coklat-dark); font-size: 1.5rem;">
+        <i class="fa-solid fa-trophy" style="color: var(--kuning-gold);"></i> Leaderboard Top Siswa
+      </h2>
+      <p style="color: var(--text-muted); font-size: 0.9rem;">Siswa paling aktif menjaga lingkungan minggu ini</p>
+
+      <div class="leaderboard-list">
+        
+        <div class="leaderboard-item top-1">
+          <div class="rank-num gold">1</div>
+          <div class="user-info">
+            <div class="user-details">
+              <h4>Budi Santoso</h4>
+              <p>Kelas 10-A • 🔥 14 Hari Streak</p>
+            </div>
+          </div>
+          <div class="score-badge">1,500 Pts</div>
+        </div>
+
+        <div class="leaderboard-item top-2">
+          <div class="rank-num green">2</div>
+          <div class="user-info">
+            <div class="user-details">
+              <h4>Kamu (Nama Siswa) 🎉</h4>
+              <p>Kelas 10-A • 🔥 12 Hari Streak</p>
+            </div>
+          </div>
+          <div class="score-badge" style="background: var(--hijau-fresh); color: white;">1,250 Pts</div>
+        </div>
+
+        <div class="leaderboard-item">
+          <div class="rank-num brown">3</div>
+          <div class="user-info">
+            <div class="user-details">
+              <h4>Rina Marlina</h4>
+              <p>Kelas 10-C • 🔥 10 Hari Streak</p>
+            </div>
+          </div>
+          <div class="score-badge">980 Pts</div>
+        </div>
+
+      </div>
     </section>
 
   </div>
