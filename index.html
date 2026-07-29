@@ -780,13 +780,26 @@
     </section>
 
   </div>
-  
-<script>
+
+<div id="adminModal" class="modal" style="display:none; position:fixed; top:0; left:0; width:100%; height:100%; background:rgba(0,0,0,0.7); z-index:9999; justify-content:center; align-items:center;">
+    <div style="background:white; padding:25px; border-radius:15px; width:90%; max-width:600px; max-height:80vh; overflow-y:auto; color:#333;">
+      <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:15px;">
+        <h3 style="margin:0;">⚙️ Panel Konfigurasi Admin</h3>
+        <button onclick="closeAdminModal()" style="background:red; color:white; border:none; padding:5px 10px; border-radius:5px; cursor:pointer;">X</button>
+      </div>
+      <p style="font-size:14px; color:#666;">Kelola poin dan streak pengguna untuk mencegah kecurangan/spam.</p>
+      <hr style="margin-bottom:15px;">
+      
+      <div id="admin-user-list">
+        </div>
+    </div>
+  </div>
+
+  <script>
     // 1. KONEKSI SUPABASE
     const SUPABASE_URL = "https://ytozaepwxuxkuyrkjggl.supabase.co";
     const SUPABASE_KEY = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Inl0b3phZXB3eHV4a3V5cmtqZ2dsIiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODUzMDMwMjUsImV4cCI6MjEwMDg3OTAyNX0.8Oc0R_tPhLJo0nXpuuRahpgtctpKRvjN9ZPc_LMiQlA";
     
-    // Inisialisasi client Supabase
     const supabaseClient = supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
 
     // Generate Otomatis Opsi Kelas X.A - XII.J
@@ -813,9 +826,13 @@
       document.getElementById('loginModal').classList.remove('active');
     }
 
+    function closeAdminModal() {
+      document.getElementById('adminModal').style.display = 'none';
+    }
+
     let currentUser = null;
 
-    // 2. LOGIKA LOGIN & REGISTER (Tersimpan di Supabase)
+    // 2. LOGIKA LOGIN & REGISTER (Termasuk Deteksi Admin)
     const loginForm = document.getElementById('loginForm');
     if (loginForm) {
       loginForm.addEventListener('submit', async function(e) {
@@ -825,12 +842,12 @@
         const inputPassword = document.getElementById('login-password').value;
         const inputKelas = document.getElementById('login-kelas').value;
 
-        if (!inputNama || !inputPassword || !inputKelas) {
+        if (!inputNama || !inputPassword) {
           alert("Lengkapi semua bidang input!");
           return;
         }
 
-        // Cek apakah akun siswa sudah terdaftar
+        // Cek pengguna di Supabase
         let { data: existingUser, error } = await supabaseClient
           .from('siswa')
           .select('*')
@@ -843,15 +860,23 @@
         }
 
         if (existingUser) {
-          // Verifikasi Password jika nama sudah ada
           if (existingUser.password !== inputPassword) {
             alert("⚠️ Password salah! Silakan coba lagi.");
             return;
           }
           currentUser = existingUser;
+          
+          // Jika yang Login adalah Admin
+          if (currentUser.is_admin) {
+            alert(`🔑 Login sebagai ADMIN berhasil! Mengakses Panel Konfigurasi...`);
+            closeLoginModal();
+            openAdminPanel();
+            return;
+          }
+
           alert(`Selamat datang kembali, ${currentUser.nama}! 👋`);
         } else {
-          // Buat akun baru jika nama belum ada
+          // Pendaftaran Siswa Baru
           const { data: newUser, error: insertError } = await supabaseClient
             .from('siswa')
             .insert([{ 
@@ -861,7 +886,8 @@
               streak: 0,
               points: 0,
               waste_kg: 0,
-              carbon_t: 0
+              carbon_t: 0,
+              is_admin: false
             }])
             .select()
             .single();
@@ -880,7 +906,82 @@
       });
     }
 
-    // Update Tampilan UI Pengguna
+    // 3. LOGIKA PANEL ADMIN (Melihat & Mengedit Poin Siswa)
+    async function openAdminPanel() {
+      document.getElementById('adminModal').style.display = 'flex';
+      
+      const { data: allSiswa, error } = await supabaseClient
+        .from('siswa')
+        .select('*')
+        .eq('is_admin', false)
+        .order('points', { ascending: false });
+
+      if (error) {
+        alert("Gagal mengambil data siswa: " + error.message);
+        return;
+      }
+
+      const container = document.getElementById('admin-user-list');
+      container.innerHTML = '';
+
+      allSiswa.forEach(siswa => {
+        const item = document.createElement('div');
+        item.style.cssText = "display:flex; justify-content:space-between; align-items:center; padding:10px; border-bottom:1px solid #ddd; margin-bottom:5px;";
+        item.innerHTML = `
+          <div>
+            <strong>${siswa.nama}</strong> (${siswa.kelas})<br>
+            <small>Pts: ${siswa.points} | Streak: ${siswa.streak} Hari | Sampah: ${siswa.waste_kg}kg</small>
+          </div>
+          <div>
+            <button onclick="editSiswa('${siswa.id}', '${siswa.nama}', ${siswa.points}, ${siswa.streak})" style="background:#4CAF50; color:white; border:none; padding:5px 10px; border-radius:4px; cursor:pointer;">Edit Poin</button>
+            <button onclick="deleteSiswa('${siswa.id}', '${siswa.nama}')" style="background:#f44336; color:white; border:none; padding:5px 10px; border-radius:4px; cursor:pointer; margin-left:5px;">Hapus</button>
+          </div>
+        `;
+        container.appendChild(item);
+      });
+    }
+
+    // Fungsi Admin: Edit Poin / Reset Poin Spam
+    async function editSiswa(id, nama, currentPts, currentStreak) {
+      const newPts = prompt(`Masukkan Poin Baru untuk ${nama}:`, currentPts);
+      if (newPts === null) return;
+      
+      const newStreak = prompt(`Masukkan Streak Baru untuk ${nama}:`, currentStreak);
+      if (newStreak === null) return;
+
+      const { error } = await supabaseClient
+        .from('siswa')
+        .update({ points: parseInt(newPts), streak: parseInt(newStreak) })
+        .eq('id', id);
+
+      if (error) {
+        alert("Gagal update data: " + error.message);
+      } else {
+        alert(`Data ${nama} berhasil diperbarui!`);
+        openAdminPanel(); // Refresh list admin
+        loadLeaderboard(); // Refresh leaderboard utama
+      }
+    }
+
+    // Fungsi Admin: Hapus Pengguna Curang
+    async function deleteSiswa(id, nama) {
+      if (!confirm(`Apakah kamu yakin ingin menghapus akun ${nama}?`)) return;
+
+      const { error } = await supabaseClient
+        .from('siswa')
+        .delete()
+        .eq('id', id);
+
+      if (error) {
+        alert("Gagal menghapus: " + error.message);
+      } else {
+        alert(`Akun ${nama} telah dihapus!`);
+        openAdminPanel();
+        loadLeaderboard();
+      }
+    }
+
+    // Update UI
     function updateUI() {
       if (!currentUser) return;
 
@@ -897,11 +998,12 @@
       document.getElementById('lead-points').innerText = (currentUser.points || 0).toLocaleString() + ' Pts';
     }
 
-    // 3. AMBIL DATA LEADERBOARD REAL-TIME DARI SUPABASE
+    // Leaderboard Utama
     async function loadLeaderboard() {
       const { data: topSiswa, error } = await supabaseClient
         .from('siswa')
         .select('nama, kelas, points, streak')
+        .eq('is_admin', false)
         .order('points', { ascending: false })
         .limit(3);
 
@@ -935,10 +1037,9 @@
       });
     }
 
-    // Jalankan Leaderboard pertama kali halaman dibuka
     loadLeaderboard();
 
-    // 4. LOGIKA POIN & STREAK PERMANEN
+    // Logika Form Aksi Poin
     const pointValues = {
       'memilah': { pts: 100, kg: 2, carbon: 0.1 },
       'tumbler': { pts: 50, kg: 1, carbon: 0.05 },
@@ -962,7 +1063,6 @@
         const actionData = pointValues[selectedAction];
         const today = new Date().toISOString().split('T')[0];
 
-        // Hitung streak harian
         let newStreak = currentUser.streak || 0;
         if (currentUser.last_submit_date !== today) {
           newStreak += 1;
@@ -972,7 +1072,6 @@
         const newWaste = (currentUser.waste_kg || 0) + actionData.kg;
         const newCarbon = (parseFloat(currentUser.carbon_t || 0) + actionData.carbon).toFixed(2);
 
-        // Simpan Perubahan ke Database Cloud Supabase
         const { data, error } = await supabaseClient
           .from('siswa')
           .update({
@@ -1000,6 +1099,3 @@
       });
     }
   </script>
-
-</body>
-</html>
