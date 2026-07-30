@@ -729,7 +729,7 @@
 
         <div class="form-group">
           <label for="foto">Unggah Foto Bukti:</label>
-          <input type="file" id="foto" accept="image/*" required>
+          <input type="file" id="foto-bukti" accept="image/*" required>
         </div>
 
         <button type="submit" class="btn-3d btn-hijau">
@@ -787,185 +787,18 @@
 <div id="adminModal" class="modal" style="display:none; position:fixed; top:0; left:0; width:100%; height:100%; background:rgba(0,0,0,0.7); z-index:9999; justify-content:center; align-items:center;">
     <div style="background:white; padding:25px; border-radius:15px; width:90%; max-width:700px; max-height:85vh; overflow-y:auto; color:#333;">
       <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:15px;">
-        <h3 style="margin:0;">⚙️ Panel Admin & Verifikasi Bukti</h3>
+        <h3 style="margin:0;">🔒 Panel Konfigurasi Admin</h3>
         <button onclick="closeAdminModal()" style="background:#ef4444; color:white; border:none; padding:6px 12px; border-radius:6px; cursor:pointer; font-weight:bold;">X</button>
       </div>
-      <p style="font-size:14px; color:#666;">Tinjau foto bukti aksi siswa untuk mencegah spam dan kelola data poin.</p>
+      <p style="font-size:14px; color:#666;">Area privat Admin: Tinjau foto bukti aksi siswa untuk verifikasi & cegah kecurangan.</p>
       <hr style="margin-bottom:15px;">
       
-      <h4>📸 Riwayat Bukti Aksi Terbaru</h4>
-      <div id="admin-laporan-list" style="margin-bottom:20px;"></div>
+      <h4 style="margin-bottom:10px;">📸 Verifikasi Foto Bukti Aksi (Khusus Admin)</h4>
+      <div id="admin-laporan-list" style="margin-bottom:20px; max-height:300px; overflow-y:auto; padding-right:5px;"></div>
 
       <hr style="margin-bottom:15px;">
-      <h4>👥 Kelola Data Siswa</h4>
+      <h4 style="margin-bottom:10px;">👥 Kelola Data & Poin Siswa</h4>
       <div id="admin-user-list"></div>
-    </div>
-  </div>
-
-  <style>
-    .funfacts-card {
-      background: linear-gradient(135deg, #111827 0%, #1f2937 100%);
-      border: 2px solid #10b981;
-      box-shadow: 0 0 25px rgba(16, 185, 129, 0.25);
-      border-radius: 20px;
-      padding: 30px;
-      color: #ffffff;
-      margin: 35px 0 20px 0;
-      position: relative;
-      overflow: hidden;
-      transition: transform 0.3s ease, box-shadow 0.3s ease;
-    }
-
-    .funfacts-card:hover {
-      box-shadow: 0 0 35px rgba(16, 185, 129, 0.45);
-      transform: translateY(-3px);
-    }
-
-    .glow-title {
-      font-size: 1.8rem;
-      font-weight: 800;
-      color: #a7f3d0;
-      text-shadow: 0 0 12px rgba(16, 185, 129, 0.8);
-      margin-bottom: 12px;
-      display: flex;
-      align-items: center;
-      gap: 10px;
-    }
-
-    .intro-text {
-      font-size: 1.05rem;
-      line-height: 1.6;
-      color: #e5e7eb;
-      margin-bottom: 25px;
-    }
-
-    .rules-grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-      gap: 18px;
-    }
-
-    .rule-item {
-      background: rgba(255, 255, 255, 0.05);
-      border: 1px solid rgba(255, 255, 255, 0.1);
-      backdrop-filter: blur(10px);
-      border-radius: 14px;
-      padding: 18px;
-      transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-    }
-
-    .rule-item:hover {
-      background: rgba(16, 185, 129, 0.1);
-      border-color: #10b981;
-      transform: translateY(-5px);
-      box-shadow: 0 8px 20px rgba(0, 0, 0, 0.3);
-    }
-
-    .rule-title {
-      font-size: 1.1rem;
-      font-weight: 700;
-      color: #6ee7b7;
-      margin-bottom: 8px;
-      display: flex;
-      align-items: center;
-      gap: 8px;
-    }
-
-    .rule-desc {
-      font-size: 0.93rem;
-      color: #d1d5db;
-      line-height: 1.5;
-    }
-
-    .trash-badge {
-      display: inline-block;
-      padding: 3px 8px;
-      border-radius: 6px;
-      font-weight: bold;
-      font-size: 0.85rem;
-      margin-right: 4px;
-    }
-    .bg-organik { background: rgba(34, 197, 94, 0.2); color: #4ade80; border: 1px solid #22c55e; }
-    .bg-anorganik { background: rgba(234, 179, 8, 0.2); color: #fde047; border: 1px solid #eab308; }
-    .bg-b3 { background: rgba(239, 68, 68, 0.2); color: #fca5a5; border: 1px solid #ef4444; }
-
-    .bottom-line-banner {
-      margin-top: 25px;
-      background: linear-gradient(90deg, #10b981, #059669);
-      border-radius: 12px;
-      padding: 15px;
-      text-align: center;
-      font-weight: 800;
-      font-size: 1.1rem;
-      color: #ffffff;
-      letter-spacing: 0.5px;
-      box-shadow: 0 0 20px rgba(16, 185, 129, 0.5);
-      animation: pulseGlow 2.5s infinite alternate;
-    }
-
-    @keyframes pulseGlow {
-      0% { box-shadow: 0 0 15px rgba(16, 185, 129, 0.4); }
-      100% { box-shadow: 0 0 30px rgba(16, 185, 129, 0.8); }
-    }
-  </style>
-
-  <div class="funfacts-card">
-    <div class="glow-title">
-      ✨ Quick Fact & School Vibe Check
-    </div>
-    
-    <p class="intro-text">
-      Sekolah tempat kita tumbuh, bukan cuma tempat nunggu bel pulang. Biar vibes sekolah tetap estetik, nyaman, dan clean, wajib hukumnya jaga lingkungan!
-    </p>
-
-    <h3 style="margin-bottom: 15px; color: #f3f4f6; font-size: 1.2rem;">
-      ⚡ 5 Rule Utama Biar Sekolah Makin Catchy:
-    </h3>
-
-    <div class="rules-grid">
-      <div class="rule-item">
-        <div class="rule-title">🌭 1. Kantin Rules: Eat Good, Keep Clean</div>
-        <div class="rule-desc">
-          Selesai makan/minum, langsung buang wadahnya ke tempat sampah. <br>
-          <strong>Pro level:</strong> Bawa botol minum (tumbler) sendiri dari rumah biar hemat dan kurangi sampah plastik!
-        </div>
-      </div>
-
-      <div class="rule-item">
-        <div class="rule-title">🚯 2. Zero Tolerance Buang Sampah Sembarangan</div>
-        <div class="rule-desc">
-          Stop nyelipin bungkus snack di kolong meja kelas <i>(itu bukan tempat sampah rahasia! 😭)</i>.<br>
-          Belum nemu tempat sampah? Kantongin dulu, buang nanti!
-        </div>
-      </div>
-
-      <div class="rule-item">
-        <div class="rule-title">🧹 3. Piket Kelas: No Ghosting Allowed!</div>
-        <div class="rule-desc">
-          Datang lebih awal / pulang belakangan sesuai jadwal. Bagi tugas (nyapu, hapus papan tulis, buang sampah).<br>
-          <strong>Solidarity check:</strong> Makin kompak tim piket, makin cepet pulangnya!
-        </div>
-      </div>
-
-      <div class="rule-item">
-        <div class="rule-title">🗑️ 4. Match the Trash! (Pilah Sampah)</div>
-        <div class="rule-desc" style="margin-top: 5px;">
-          <span class="trash-badge bg-organik">🟢 Hijau</span> Sisa makanan & daun.<br>
-          <span class="trash-badge bg-anorganik" style="margin-top: 4px;">🟡 Kuning</span> Plastik, kaleng, botol.<br>
-          <span class="trash-badge bg-b3" style="margin-top: 4px;">🔴 Merah</span> Baterai bekas & benda berbahaya.
-        </div>
-      </div>
-
-      <div class="rule-item" style="grid-column: 1 / -1;">
-        <div class="rule-title">💡 5. Green Vibes & Energy</div>
-        <div class="rule-desc">
-          Matikan AC, kipas, dan lampu pas kelas kosong atau pas mau pulang. Rawat tanaman kelas biar pas belajar mood tetep adem dan gak burnout!
-        </div>
-      </div>
-    </div>
-
-    <div class="bottom-line-banner">
-      🚀 Bottom Line: Being smart is cool, but caring for your school is way cooler!
     </div>
   </div>
 
@@ -1040,7 +873,7 @@
           currentUser = existingUser;
           
           if (currentUser.is_admin) {
-            alert(`🔑 Login sebagai ADMIN berhasil!`);
+            alert(`🔑 Login sebagai ADMIN berhasil! Menampilkan Panel Privat...`);
             closeLoginModal();
             openAdminPanel();
             return;
@@ -1077,16 +910,16 @@
       });
     }
 
-    // Panel Admin & Peninjauan Foto Bukti
+    // Panel Admin Privat (Hanya Admin yang bisa lihat daftar ini)
     async function openAdminPanel() {
       document.getElementById('adminModal').style.display = 'flex';
       
-      // Load Bukti Foto Aksi Terbaru
+      // Load Bukti Foto Aksi Rahasia/Khusus Admin
       const { data: laporanList } = await supabaseClient
         .from('laporan')
         .select('*')
         .order('created_at', { ascending: false })
-        .limit(10);
+        .limit(15);
 
       const laporanContainer = document.getElementById('admin-laporan-list');
       laporanContainer.innerHTML = '';
@@ -1096,15 +929,15 @@
       } else {
         laporanList.forEach(lap => {
           const item = document.createElement('div');
-          item.style.cssText = "display:flex; align-items:center; gap:15px; padding:10px; background:#f9f9f9; border-radius:8px; margin-bottom:10px;";
+          item.style.cssText = "display:flex; align-items:center; gap:15px; padding:10px; background:#f9f9f9; border-radius:8px; margin-bottom:10px; border:1px solid #eee;";
           item.innerHTML = `
             <a href="${lap.foto_url}" target="_blank">
-              <img src="${lap.foto_url}" style="width:70px; height:70px; object-fit:cover; border-radius:8px; border:1px solid #ccc;">
+              <img src="${lap.foto_url}" style="width:65px; height:65px; object-fit:cover; border-radius:8px; border:1px solid #ccc;">
             </a>
-            <div>
+            <div style="flex-grow:1;">
               <strong>${lap.nama_siswa}</strong> (${lap.kelas})<br>
-              <small>Aksi: <b>${lap.jenis_aksi}</b> | ${new Date(lap.created_at).toLocaleString()}</small><br>
-              <a href="${lap.foto_url}" target="_blank" style="color:#007bff; font-size:12px;">🔍 Lihat Foto Full</a>
+              <small>Aksi: <b>${lap.jenis_aksi}</b> | ${new Date(lap.created_at).toLocaleString('id-ID')}</small><br>
+              <a href="${lap.foto_url}" target="_blank" style="color:#2563eb; font-size:12px; font-weight:bold; text-decoration:none;">🔍 Buka Foto Ukuran Penuh</a>
             </div>
           `;
           laporanContainer.appendChild(item);
@@ -1131,8 +964,8 @@
               <small>Pts: ${siswa.points} | Streak: ${siswa.streak} Hari | Sampah: ${siswa.waste_kg}kg</small>
             </div>
             <div>
-              <button onclick="editSiswa('${siswa.id}', '${siswa.nama}', ${siswa.points}, ${siswa.streak})" style="background:#4CAF50; color:white; border:none; padding:5px 10px; border-radius:4px; cursor:pointer;">Edit Poin</button>
-              <button onclick="deleteSiswa('${siswa.id}', '${siswa.nama}')" style="background:#f44336; color:white; border:none; padding:5px 10px; border-radius:4px; cursor:pointer; margin-left:5px;">Hapus</button>
+              <button onclick="editSiswa('${siswa.id}', '${siswa.nama}', ${siswa.points}, ${siswa.streak})" style="background:#10b981; color:white; border:none; padding:5px 10px; border-radius:4px; cursor:pointer;">Edit Poin</button>
+              <button onclick="deleteSiswa('${siswa.id}', '${siswa.nama}')" style="background:#ef4444; color:white; border:none; padding:5px 10px; border-radius:4px; cursor:pointer; margin-left:5px;">Hapus</button>
             </div>
           `;
           container.appendChild(item);
@@ -1234,7 +1067,7 @@
 
     loadLeaderboard();
 
-    // Logika Form Aksi & Upload Foto
+    // Logika Form Aksi & Upload Foto Privat
     const pointValues = {
       'memilah': { pts: 100, kg: 2, carbon: 0.1 },
       'tumbler': { pts: 50, kg: 1, carbon: 0.05 },
@@ -1256,14 +1089,13 @@
         const fileInput = document.getElementById('foto-bukti');
         if (!selectedAction) return;
 
-        // Jika ada input file foto
         let photoPublicUrl = "";
         if (fileInput && fileInput.files[0]) {
           const file = fileInput.files[0];
           const fileExt = file.name.split('.').pop();
           const fileName = `${Date.now()}_${currentUser.nama.replace(/\s+/g, '_')}.${fileExt}`;
 
-          alert("⏳ Mengunggah foto bukti aksi...");
+          alert("⏳ Mengunggah foto bukti aksi secara rahasia ke Admin...");
 
           const { error: uploadError } = await supabaseClient
             .storage
@@ -1282,7 +1114,7 @@
 
           photoPublicUrl = urlData.publicUrl;
 
-          // Simpan Laporan
+          // Simpan Laporan khusus Admin
           await supabaseClient
             .from('laporan')
             .insert([{
@@ -1294,7 +1126,6 @@
             }]);
         }
 
-        // Hitung Poin
         const actionData = pointValues[selectedAction];
         const today = new Date().toISOString().split('T')[0];
 
@@ -1329,7 +1160,7 @@
         updateUI();
         loadLeaderboard();
 
-        alert(`🎉 Aksi Berhasil Tersimpan!\n+${actionData.pts} Pts ditambahkan!\nDaily Streak kamu: ${currentUser.streak} Hari!`);
+        alert(`🎉 Aksi & Bukti Berhasil Terkirim ke Admin!\n+${actionData.pts} Pts ditambahkan!\nDaily Streak kamu: ${currentUser.streak} Hari!`);
         actionForm.reset();
       });
     }
