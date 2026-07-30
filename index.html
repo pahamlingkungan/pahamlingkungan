@@ -426,6 +426,7 @@
       box-shadow: 0 0 12px var(--hijau-glow);
     }
 
+    
     /* --------------------------------------------------
        LEADERBOARD INTERAKTIF
     -------------------------------------------------- */
@@ -651,8 +652,188 @@
         <i class="fa-solid fa-user"></i> <span id="nav-user-text">Login</span>
       </button>
     </nav>
+
   </header>
 
+<style>
+  /* Container Utama dengan Efek Glow */
+  .funfacts-card {
+    background: linear-gradient(135deg, #111827 0%, #1f2937 100%);
+    border: 2px solid #10b981;
+    box-shadow: 0 0 25px rgba(16, 185, 129, 0.25);
+    border-radius: 20px;
+    padding: 30px;
+    color: #ffffff;
+    margin: 30px 0;
+    position: relative;
+    overflow: hidden;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+  }
+
+  .funfacts-card:hover {
+    box-shadow: 0 0 35px rgba(16, 185, 129, 0.45);
+    transform: translateY(-3px);
+  }
+
+  /* Text Glow & Headline */
+  .glow-title {
+    font-size: 1.8rem;
+    font-weight: 800;
+    color: #a7f3d0;
+    text-shadow: 0 0 12px rgba(16, 185, 129, 0.8);
+    margin-bottom: 12px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+
+  .intro-text {
+    font-size: 1.05rem;
+    line-height: 1.6;
+    color: #e5e7eb;
+    margin-bottom: 25px;
+  }
+
+  /* Grid Card Rules */
+  .rules-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: 18px;
+  }
+
+  /* Card Item dengan Hover Effect */
+  .rule-item {
+    background: rgba(255, 255, 255, 0.05);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    backdrop-filter: blur(10px);
+    border-radius: 14px;
+    padding: 18px;
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  }
+
+  .rule-item:hover {
+    background: rgba(16, 185, 129, 0.1);
+    border-color: #10b981;
+    transform: translateY(-5px);
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.3);
+  }
+
+  .rule-title {
+    font-size: 1.1rem;
+    font-weight: 700;
+    color: #6ee7b7;
+    margin-bottom: 8px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+
+  .rule-desc {
+    font-size: 0.93rem;
+    color: #d1d5db;
+    line-height: 1.5;
+  }
+
+  /* Badge Warna Sampah */
+  .trash-badge {
+    display: inline-block;
+    padding: 3px 8px;
+    border-radius: 6px;
+    font-weight: bold;
+    font-size: 0.85rem;
+    margin-right: 4px;
+  }
+  .bg-organik { background: rgba(34, 197, 94, 0.2); color: #4ade80; border: 1px solid #22c55e; }
+  .bg-anorganik { background: rgba(234, 179, 8, 0.2); color: #fde047; border: 1px solid #eab308; }
+  .bg-b3 { background: rgba(239, 68, 68, 0.2); color: #fca5a5; border: 1px solid #ef4444; }
+
+  /* Bottom Line Glowing Banner */
+  .bottom-line-banner {
+    margin-top: 25px;
+    background: linear-gradient(90deg, #10b981, #059669);
+    border-radius: 12px;
+    padding: 15px;
+    text-align: center;
+    font-weight: 800;
+    font-size: 1.1rem;
+    color: #ffffff;
+    letter-spacing: 0.5px;
+    box-shadow: 0 0 20px rgba(16, 185, 129, 0.5);
+    animation: pulseGlow 2.5s infinite alternate;
+  }
+
+  /* Animasi Pulse Glow */
+  @keyframes pulseGlow {
+    0% {
+      box-shadow: 0 0 15px rgba(16, 185, 129, 0.4);
+    }
+    100% {
+      box-shadow: 0 0 30px rgba(16, 185, 129, 0.8);
+    }
+  }
+  
+</style>
+
+<div class="funfacts-card">
+  <div class="glow-title">
+    ✨ Quick Fact & School Vibe Check
+  </div>
+  
+  <p class="intro-text">
+    Sekolah tempat kita tumbuh, bukan cuma tempat nunggu bel pulang. Biar vibes sekolah tetap estetik, nyaman, dan clean, wajib hukumnya jaga lingkungan!
+  </p>
+
+  <h3 style="margin-bottom: 15px; color: #f3f4f6; font-size: 1.2rem;">
+    ⚡ 5 Rule Utama Biar Sekolah Makin Catchy:
+  </h3>
+
+  <div class="rules-grid">
+    <div class="rule-item">
+      <div class="rule-title">🌭 1. Kantin Rules: Eat Good, Keep Clean</div>
+      <div class="rule-desc">
+        Selesai makan/minum, langsung buang wadahnya ke tempat sampah. <br>
+        <strong>Pro level:</strong> Bawa botol minum (tumbler) sendiri dari rumah biar hemat dan kurangi sampah plastik!
+      </div>
+    </div>
+
+    <div class="rule-item">
+      <div class="rule-title">🚯 2. Zero Tolerance Buang Sampah Sembarangan</div>
+      <div class="rule-desc">
+        Stop nyelipin bungkus snack di kolong meja kelas <i>(itu bukan tempat sampah rahasia! 😭)</i>.<br>
+        Belum nemu tempat sampah? Kantongin dulu, buang nanti!
+      </div>
+    </div>
+
+    <div class="rule-item">
+      <div class="rule-title">🧹 3. Piket Kelas: No Ghosting Allowed!</div>
+      <div class="rule-desc">
+        Datang lebih awal / pulang belakangan sesuai jadwal. Bagi tugas (nyapu, hapus papan tulis, buang sampah).<br>
+        <strong>Solidarity check:</strong> Makin kompak tim piket, makin cepet pulangnya!
+      </div>
+    </div>
+
+    <div class="rule-item">
+      <div class="rule-title">🗑️ 4. Match the Trash! (Pilah Sampah)</div>
+      <div class="rule-desc" style="margin-top: 5px;">
+        <span class="trash-badge bg-organik">🟢 Hijau</span> Sisa makanan & daun.<br>
+        <span class="trash-badge bg-anorganik" style="margin-top: 4px;">🟡 Kuning</span> Plastik, kaleng, botol.<br>
+        <span class="trash-badge bg-b3" style="margin-top: 4px;">🔴 Merah</span> Baterai bekas & benda berbahaya.
+      </div>
+    </div>
+
+    <div class="rule-item" style="grid-column: 1 / -1;">
+      <div class="rule-title">💡 5. Green Vibes & Energy</div>
+      <div class="rule-desc">
+        Matikan AC, kipas, dan lampu pas kelas kosong atau pas mau pulang. Rawat tanaman kelas biar pas belajar mood tetep adem dan gak burnout!
+      </div>
+    </div>
+  </div>
+
+  <div class="bottom-line-banner">
+    🚀 Being smart is cool, but caring for your school is way cooler!
+  </div>
+</div>
+  
   <section class="hero-banner">
     <h1 class="font-display">Keep Your Streak, Save the Planet!</h1>
     <p>Ubah kebiasaan membuang sampah jadi game seru. Kumpulkan poin, jaga streak harianmu, dan jadilah pahlawan lingkungan sekolah!</p>
