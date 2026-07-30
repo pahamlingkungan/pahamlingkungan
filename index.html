@@ -655,184 +655,6 @@
 
   </header>
 
-<style>
-  /* Container Utama dengan Efek Glow */
-  .funfacts-card {
-    background: linear-gradient(135deg, #111827 0%, #1f2937 100%);
-    border: 2px solid #10b981;
-    box-shadow: 0 0 25px rgba(16, 185, 129, 0.25);
-    border-radius: 20px;
-    padding: 30px;
-    color: #ffffff;
-    margin: 30px 0;
-    position: relative;
-    overflow: hidden;
-    transition: transform 0.3s ease, box-shadow 0.3s ease;
-  }
-
-  .funfacts-card:hover {
-    box-shadow: 0 0 35px rgba(16, 185, 129, 0.45);
-    transform: translateY(-3px);
-  }
-
-  /* Text Glow & Headline */
-  .glow-title {
-    font-size: 1.8rem;
-    font-weight: 800;
-    color: #a7f3d0;
-    text-shadow: 0 0 12px rgba(16, 185, 129, 0.8);
-    margin-bottom: 12px;
-    display: flex;
-    align-items: center;
-    gap: 10px;
-  }
-
-  .intro-text {
-    font-size: 1.05rem;
-    line-height: 1.6;
-    color: #e5e7eb;
-    margin-bottom: 25px;
-  }
-
-  /* Grid Card Rules */
-  .rules-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-    gap: 18px;
-  }
-
-  /* Card Item dengan Hover Effect */
-  .rule-item {
-    background: rgba(255, 255, 255, 0.05);
-    border: 1px solid rgba(255, 255, 255, 0.1);
-    backdrop-filter: blur(10px);
-    border-radius: 14px;
-    padding: 18px;
-    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-  }
-
-  .rule-item:hover {
-    background: rgba(16, 185, 129, 0.1);
-    border-color: #10b981;
-    transform: translateY(-5px);
-    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.3);
-  }
-
-  .rule-title {
-    font-size: 1.1rem;
-    font-weight: 700;
-    color: #6ee7b7;
-    margin-bottom: 8px;
-    display: flex;
-    align-items: center;
-    gap: 8px;
-  }
-
-  .rule-desc {
-    font-size: 0.93rem;
-    color: #d1d5db;
-    line-height: 1.5;
-  }
-
-  /* Badge Warna Sampah */
-  .trash-badge {
-    display: inline-block;
-    padding: 3px 8px;
-    border-radius: 6px;
-    font-weight: bold;
-    font-size: 0.85rem;
-    margin-right: 4px;
-  }
-  .bg-organik { background: rgba(34, 197, 94, 0.2); color: #4ade80; border: 1px solid #22c55e; }
-  .bg-anorganik { background: rgba(234, 179, 8, 0.2); color: #fde047; border: 1px solid #eab308; }
-  .bg-b3 { background: rgba(239, 68, 68, 0.2); color: #fca5a5; border: 1px solid #ef4444; }
-
-  /* Bottom Line Glowing Banner */
-  .bottom-line-banner {
-    margin-top: 25px;
-    background: linear-gradient(90deg, #10b981, #059669);
-    border-radius: 12px;
-    padding: 15px;
-    text-align: center;
-    font-weight: 800;
-    font-size: 1.1rem;
-    color: #ffffff;
-    letter-spacing: 0.5px;
-    box-shadow: 0 0 20px rgba(16, 185, 129, 0.5);
-    animation: pulseGlow 2.5s infinite alternate;
-  }
-
-  /* Animasi Pulse Glow */
-  @keyframes pulseGlow {
-    0% {
-      box-shadow: 0 0 15px rgba(16, 185, 129, 0.4);
-    }
-    100% {
-      box-shadow: 0 0 30px rgba(16, 185, 129, 0.8);
-    }
-  }
-  
-</style>
-
-<div class="funfacts-card">
-  <div class="glow-title">
-    ✨ Quick Fact & School Vibe Check
-  </div>
-  
-  <p class="intro-text">
-    Sekolah tempat kita tumbuh, bukan cuma tempat nunggu bel pulang. Biar vibes sekolah tetap estetik, nyaman, dan clean, wajib hukumnya jaga lingkungan!
-  </p>
-
-  <h3 style="margin-bottom: 15px; color: #f3f4f6; font-size: 1.2rem;">
-    ⚡ 5 Rule Utama Biar Sekolah Makin Catchy:
-  </h3>
-
-  <div class="rules-grid">
-    <div class="rule-item">
-      <div class="rule-title">🌭 1. Kantin Rules: Eat Good, Keep Clean</div>
-      <div class="rule-desc">
-        Selesai makan/minum, langsung buang wadahnya ke tempat sampah. <br>
-        <strong>Pro level:</strong> Bawa botol minum (tumbler) sendiri dari rumah biar hemat dan kurangi sampah plastik!
-      </div>
-    </div>
-
-    <div class="rule-item">
-      <div class="rule-title">🚯 2. Zero Tolerance Buang Sampah Sembarangan</div>
-      <div class="rule-desc">
-        Stop nyelipin bungkus snack di kolong meja kelas <i>(itu bukan tempat sampah rahasia! 😭)</i>.<br>
-        Belum nemu tempat sampah? Kantongin dulu, buang nanti!
-      </div>
-    </div>
-
-    <div class="rule-item">
-      <div class="rule-title">🧹 3. Piket Kelas: No Ghosting Allowed!</div>
-      <div class="rule-desc">
-        Datang lebih awal / pulang belakangan sesuai jadwal. Bagi tugas (nyapu, hapus papan tulis, buang sampah).<br>
-        <strong>Solidarity check:</strong> Makin kompak tim piket, makin cepet pulangnya!
-      </div>
-    </div>
-
-    <div class="rule-item">
-      <div class="rule-title">🗑️ 4. Match the Trash! (Pilah Sampah)</div>
-      <div class="rule-desc" style="margin-top: 5px;">
-        <span class="trash-badge bg-organik">🟢 Hijau</span> Sisa makanan & daun.<br>
-        <span class="trash-badge bg-anorganik" style="margin-top: 4px;">🟡 Kuning</span> Plastik, kaleng, botol.<br>
-        <span class="trash-badge bg-b3" style="margin-top: 4px;">🔴 Merah</span> Baterai bekas & benda berbahaya.
-      </div>
-    </div>
-
-    <div class="rule-item" style="grid-column: 1 / -1;">
-      <div class="rule-title">💡 5. Green Vibes & Energy</div>
-      <div class="rule-desc">
-        Matikan AC, kipas, dan lampu pas kelas kosong atau pas mau pulang. Rawat tanaman kelas biar pas belajar mood tetep adem dan gak burnout!
-      </div>
-    </div>
-  </div>
-
-  <div class="bottom-line-banner">
-    🚀 Being smart is cool, but caring for your school is way cooler!
-  </div>
-</div>
   
   <section class="hero-banner">
     <h1 class="font-display">Keep Your Streak, Save the Planet!</h1>
@@ -963,27 +785,198 @@
   </div>
 
 <div id="adminModal" class="modal" style="display:none; position:fixed; top:0; left:0; width:100%; height:100%; background:rgba(0,0,0,0.7); z-index:9999; justify-content:center; align-items:center;">
-    <div style="background:white; padding:25px; border-radius:15px; width:90%; max-width:600px; max-height:80vh; overflow-y:auto; color:#333;">
+    <div style="background:white; padding:25px; border-radius:15px; width:90%; max-width:700px; max-height:85vh; overflow-y:auto; color:#333;">
       <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:15px;">
-        <h3 style="margin:0;">⚙️ Panel Konfigurasi Admin</h3>
-        <button onclick="closeAdminModal()" style="background:red; color:white; border:none; padding:5px 10px; border-radius:5px; cursor:pointer;">X</button>
+        <h3 style="margin:0;">⚙️ Panel Admin & Verifikasi Bukti</h3>
+        <button onclick="closeAdminModal()" style="background:#ef4444; color:white; border:none; padding:6px 12px; border-radius:6px; cursor:pointer; font-weight:bold;">X</button>
       </div>
-      <p style="font-size:14px; color:#666;">Kelola poin dan streak pengguna untuk mencegah kecurangan/spam.</p>
+      <p style="font-size:14px; color:#666;">Tinjau foto bukti aksi siswa untuk mencegah spam dan kelola data poin.</p>
       <hr style="margin-bottom:15px;">
       
-      <div id="admin-user-list">
+      <h4>📸 Riwayat Bukti Aksi Terbaru</h4>
+      <div id="admin-laporan-list" style="margin-bottom:20px;"></div>
+
+      <hr style="margin-bottom:15px;">
+      <h4>👥 Kelola Data Siswa</h4>
+      <div id="admin-user-list"></div>
+    </div>
+  </div>
+
+  <style>
+    .funfacts-card {
+      background: linear-gradient(135deg, #111827 0%, #1f2937 100%);
+      border: 2px solid #10b981;
+      box-shadow: 0 0 25px rgba(16, 185, 129, 0.25);
+      border-radius: 20px;
+      padding: 30px;
+      color: #ffffff;
+      margin: 35px 0 20px 0;
+      position: relative;
+      overflow: hidden;
+      transition: transform 0.3s ease, box-shadow 0.3s ease;
+    }
+
+    .funfacts-card:hover {
+      box-shadow: 0 0 35px rgba(16, 185, 129, 0.45);
+      transform: translateY(-3px);
+    }
+
+    .glow-title {
+      font-size: 1.8rem;
+      font-weight: 800;
+      color: #a7f3d0;
+      text-shadow: 0 0 12px rgba(16, 185, 129, 0.8);
+      margin-bottom: 12px;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .intro-text {
+      font-size: 1.05rem;
+      line-height: 1.6;
+      color: #e5e7eb;
+      margin-bottom: 25px;
+    }
+
+    .rules-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+      gap: 18px;
+    }
+
+    .rule-item {
+      background: rgba(255, 255, 255, 0.05);
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      backdrop-filter: blur(10px);
+      border-radius: 14px;
+      padding: 18px;
+      transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+
+    .rule-item:hover {
+      background: rgba(16, 185, 129, 0.1);
+      border-color: #10b981;
+      transform: translateY(-5px);
+      box-shadow: 0 8px 20px rgba(0, 0, 0, 0.3);
+    }
+
+    .rule-title {
+      font-size: 1.1rem;
+      font-weight: 700;
+      color: #6ee7b7;
+      margin-bottom: 8px;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .rule-desc {
+      font-size: 0.93rem;
+      color: #d1d5db;
+      line-height: 1.5;
+    }
+
+    .trash-badge {
+      display: inline-block;
+      padding: 3px 8px;
+      border-radius: 6px;
+      font-weight: bold;
+      font-size: 0.85rem;
+      margin-right: 4px;
+    }
+    .bg-organik { background: rgba(34, 197, 94, 0.2); color: #4ade80; border: 1px solid #22c55e; }
+    .bg-anorganik { background: rgba(234, 179, 8, 0.2); color: #fde047; border: 1px solid #eab308; }
+    .bg-b3 { background: rgba(239, 68, 68, 0.2); color: #fca5a5; border: 1px solid #ef4444; }
+
+    .bottom-line-banner {
+      margin-top: 25px;
+      background: linear-gradient(90deg, #10b981, #059669);
+      border-radius: 12px;
+      padding: 15px;
+      text-align: center;
+      font-weight: 800;
+      font-size: 1.1rem;
+      color: #ffffff;
+      letter-spacing: 0.5px;
+      box-shadow: 0 0 20px rgba(16, 185, 129, 0.5);
+      animation: pulseGlow 2.5s infinite alternate;
+    }
+
+    @keyframes pulseGlow {
+      0% { box-shadow: 0 0 15px rgba(16, 185, 129, 0.4); }
+      100% { box-shadow: 0 0 30px rgba(16, 185, 129, 0.8); }
+    }
+  </style>
+
+  <div class="funfacts-card">
+    <div class="glow-title">
+      ✨ Quick Fact & School Vibe Check
+    </div>
+    
+    <p class="intro-text">
+      Sekolah tempat kita tumbuh, bukan cuma tempat nunggu bel pulang. Biar vibes sekolah tetap estetik, nyaman, dan clean, wajib hukumnya jaga lingkungan!
+    </p>
+
+    <h3 style="margin-bottom: 15px; color: #f3f4f6; font-size: 1.2rem;">
+      ⚡ 5 Rule Utama Biar Sekolah Makin Catchy:
+    </h3>
+
+    <div class="rules-grid">
+      <div class="rule-item">
+        <div class="rule-title">🌭 1. Kantin Rules: Eat Good, Keep Clean</div>
+        <div class="rule-desc">
+          Selesai makan/minum, langsung buang wadahnya ke tempat sampah. <br>
+          <strong>Pro level:</strong> Bawa botol minum (tumbler) sendiri dari rumah biar hemat dan kurangi sampah plastik!
         </div>
+      </div>
+
+      <div class="rule-item">
+        <div class="rule-title">🚯 2. Zero Tolerance Buang Sampah Sembarangan</div>
+        <div class="rule-desc">
+          Stop nyelipin bungkus snack di kolong meja kelas <i>(itu bukan tempat sampah rahasia! 😭)</i>.<br>
+          Belum nemu tempat sampah? Kantongin dulu, buang nanti!
+        </div>
+      </div>
+
+      <div class="rule-item">
+        <div class="rule-title">🧹 3. Piket Kelas: No Ghosting Allowed!</div>
+        <div class="rule-desc">
+          Datang lebih awal / pulang belakangan sesuai jadwal. Bagi tugas (nyapu, hapus papan tulis, buang sampah).<br>
+          <strong>Solidarity check:</strong> Makin kompak tim piket, makin cepet pulangnya!
+        </div>
+      </div>
+
+      <div class="rule-item">
+        <div class="rule-title">🗑️ 4. Match the Trash! (Pilah Sampah)</div>
+        <div class="rule-desc" style="margin-top: 5px;">
+          <span class="trash-badge bg-organik">🟢 Hijau</span> Sisa makanan & daun.<br>
+          <span class="trash-badge bg-anorganik" style="margin-top: 4px;">🟡 Kuning</span> Plastik, kaleng, botol.<br>
+          <span class="trash-badge bg-b3" style="margin-top: 4px;">🔴 Merah</span> Baterai bekas & benda berbahaya.
+        </div>
+      </div>
+
+      <div class="rule-item" style="grid-column: 1 / -1;">
+        <div class="rule-title">💡 5. Green Vibes & Energy</div>
+        <div class="rule-desc">
+          Matikan AC, kipas, dan lampu pas kelas kosong atau pas mau pulang. Rawat tanaman kelas biar pas belajar mood tetep adem dan gak burnout!
+        </div>
+      </div>
+    </div>
+
+    <div class="bottom-line-banner">
+      🚀 Bottom Line: Being smart is cool, but caring for your school is way cooler!
     </div>
   </div>
 
   <script>
-    // 1. KONEKSI SUPABASE
+    // Koneksi Supabase
     const SUPABASE_URL = "https://ytozaepwxuxkuyrkjggl.supabase.co";
     const SUPABASE_KEY = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Inl0b3phZXB3eHV4a3V5cmtqZ2dsIiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODUzMDMwMjUsImV4cCI6MjEwMDg3OTAyNX0.8Oc0R_tPhLJo0nXpuuRahpgtctpKRvjN9ZPc_LMiQlA";
     
     const supabaseClient = supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
 
-    // Generate Otomatis Opsi Kelas X.A - XII.J
+    // Dynamic Opsi Kelas X.A - XII.J
     const selectKelas = document.getElementById('login-kelas');
     if (selectKelas && selectKelas.options.length <= 1) {
       const tingkatan = ['X', 'XI', 'XII'];
@@ -1013,7 +1006,7 @@
 
     let currentUser = null;
 
-    // 2. LOGIKA LOGIN & REGISTER (Termasuk Deteksi Admin)
+    // Logika Login & Register
     const loginForm = document.getElementById('loginForm');
     if (loginForm) {
       loginForm.addEventListener('submit', async function(e) {
@@ -1028,7 +1021,6 @@
           return;
         }
 
-        // Cek pengguna di Supabase
         let { data: existingUser, error } = await supabaseClient
           .from('siswa')
           .select('*')
@@ -1047,9 +1039,8 @@
           }
           currentUser = existingUser;
           
-          // Jika yang Login adalah Admin
           if (currentUser.is_admin) {
-            alert(`🔑 Login sebagai ADMIN berhasil! Mengakses Panel Konfigurasi...`);
+            alert(`🔑 Login sebagai ADMIN berhasil!`);
             closeLoginModal();
             openAdminPanel();
             return;
@@ -1057,7 +1048,6 @@
 
           alert(`Selamat datang kembali, ${currentUser.nama}! 👋`);
         } else {
-          // Pendaftaran Siswa Baru
           const { data: newUser, error: insertError } = await supabaseClient
             .from('siswa')
             .insert([{ 
@@ -1087,42 +1077,69 @@
       });
     }
 
-    // 3. LOGIKA PANEL ADMIN (Melihat & Mengedit Poin Siswa)
+    // Panel Admin & Peninjauan Foto Bukti
     async function openAdminPanel() {
       document.getElementById('adminModal').style.display = 'flex';
       
-      const { data: allSiswa, error } = await supabaseClient
+      // Load Bukti Foto Aksi Terbaru
+      const { data: laporanList } = await supabaseClient
+        .from('laporan')
+        .select('*')
+        .order('created_at', { ascending: false })
+        .limit(10);
+
+      const laporanContainer = document.getElementById('admin-laporan-list');
+      laporanContainer.innerHTML = '';
+
+      if (!laporanList || laporanList.length === 0) {
+        laporanContainer.innerHTML = '<p style="color:#888;">Belum ada foto bukti aksi terunggah.</p>';
+      } else {
+        laporanList.forEach(lap => {
+          const item = document.createElement('div');
+          item.style.cssText = "display:flex; align-items:center; gap:15px; padding:10px; background:#f9f9f9; border-radius:8px; margin-bottom:10px;";
+          item.innerHTML = `
+            <a href="${lap.foto_url}" target="_blank">
+              <img src="${lap.foto_url}" style="width:70px; height:70px; object-fit:cover; border-radius:8px; border:1px solid #ccc;">
+            </a>
+            <div>
+              <strong>${lap.nama_siswa}</strong> (${lap.kelas})<br>
+              <small>Aksi: <b>${lap.jenis_aksi}</b> | ${new Date(lap.created_at).toLocaleString()}</small><br>
+              <a href="${lap.foto_url}" target="_blank" style="color:#007bff; font-size:12px;">🔍 Lihat Foto Full</a>
+            </div>
+          `;
+          laporanContainer.appendChild(item);
+        });
+      }
+
+      // Load Daftar Siswa
+      const { data: allSiswa } = await supabaseClient
         .from('siswa')
         .select('*')
         .eq('is_admin', false)
         .order('points', { ascending: false });
 
-      if (error) {
-        alert("Gagal mengambil data siswa: " + error.message);
-        return;
-      }
-
       const container = document.getElementById('admin-user-list');
       container.innerHTML = '';
 
-      allSiswa.forEach(siswa => {
-        const item = document.createElement('div');
-        item.style.cssText = "display:flex; justify-content:space-between; align-items:center; padding:10px; border-bottom:1px solid #ddd; margin-bottom:5px;";
-        item.innerHTML = `
-          <div>
-            <strong>${siswa.nama}</strong> (${siswa.kelas})<br>
-            <small>Pts: ${siswa.points} | Streak: ${siswa.streak} Hari | Sampah: ${siswa.waste_kg}kg</small>
-          </div>
-          <div>
-            <button onclick="editSiswa('${siswa.id}', '${siswa.nama}', ${siswa.points}, ${siswa.streak})" style="background:#4CAF50; color:white; border:none; padding:5px 10px; border-radius:4px; cursor:pointer;">Edit Poin</button>
-            <button onclick="deleteSiswa('${siswa.id}', '${siswa.nama}')" style="background:#f44336; color:white; border:none; padding:5px 10px; border-radius:4px; cursor:pointer; margin-left:5px;">Hapus</button>
-          </div>
-        `;
-        container.appendChild(item);
-      });
+      if (allSiswa) {
+        allSiswa.forEach(siswa => {
+          const item = document.createElement('div');
+          item.style.cssText = "display:flex; justify-content:space-between; align-items:center; padding:10px; border-bottom:1px solid #ddd;";
+          item.innerHTML = `
+            <div>
+              <strong>${siswa.nama}</strong> (${siswa.kelas})<br>
+              <small>Pts: ${siswa.points} | Streak: ${siswa.streak} Hari | Sampah: ${siswa.waste_kg}kg</small>
+            </div>
+            <div>
+              <button onclick="editSiswa('${siswa.id}', '${siswa.nama}', ${siswa.points}, ${siswa.streak})" style="background:#4CAF50; color:white; border:none; padding:5px 10px; border-radius:4px; cursor:pointer;">Edit Poin</button>
+              <button onclick="deleteSiswa('${siswa.id}', '${siswa.nama}')" style="background:#f44336; color:white; border:none; padding:5px 10px; border-radius:4px; cursor:pointer; margin-left:5px;">Hapus</button>
+            </div>
+          `;
+          container.appendChild(item);
+        });
+      }
     }
 
-    // Fungsi Admin: Edit Poin / Reset Poin Spam
     async function editSiswa(id, nama, currentPts, currentStreak) {
       const newPts = prompt(`Masukkan Poin Baru untuk ${nama}:`, currentPts);
       if (newPts === null) return;
@@ -1135,16 +1152,15 @@
         .update({ points: parseInt(newPts), streak: parseInt(newStreak) })
         .eq('id', id);
 
-      if (error) {
-        alert("Gagal update data: " + error.message);
-      } else {
+      if (!error) {
         alert(`Data ${nama} berhasil diperbarui!`);
-        openAdminPanel(); // Refresh list admin
-        loadLeaderboard(); // Refresh leaderboard utama
+        openAdminPanel();
+        loadLeaderboard();
+      } else {
+        alert("Gagal update data: " + error.message);
       }
     }
 
-    // Fungsi Admin: Hapus Pengguna Curang
     async function deleteSiswa(id, nama) {
       if (!confirm(`Apakah kamu yakin ingin menghapus akun ${nama}?`)) return;
 
@@ -1153,16 +1169,15 @@
         .delete()
         .eq('id', id);
 
-      if (error) {
-        alert("Gagal menghapus: " + error.message);
-      } else {
+      if (!error) {
         alert(`Akun ${nama} telah dihapus!`);
         openAdminPanel();
         loadLeaderboard();
+      } else {
+        alert("Gagal menghapus: " + error.message);
       }
     }
 
-    // Update UI
     function updateUI() {
       if (!currentUser) return;
 
@@ -1179,16 +1194,15 @@
       document.getElementById('lead-points').innerText = (currentUser.points || 0).toLocaleString() + ' Pts';
     }
 
-    // Leaderboard Utama
     async function loadLeaderboard() {
-      const { data: topSiswa, error } = await supabaseClient
+      const { data: topSiswa } = await supabaseClient
         .from('siswa')
         .select('nama, kelas, points, streak')
         .eq('is_admin', false)
         .order('points', { ascending: false })
         .limit(3);
 
-      if (error || !topSiswa) return;
+      if (!topSiswa) return;
 
       const leaderboardContainer = document.querySelector('.leaderboard-list');
       if (!leaderboardContainer) return;
@@ -1220,7 +1234,7 @@
 
     loadLeaderboard();
 
-    // Logika Form Aksi Poin
+    // Logika Form Aksi & Upload Foto
     const pointValues = {
       'memilah': { pts: 100, kg: 2, carbon: 0.1 },
       'tumbler': { pts: 50, kg: 1, carbon: 0.05 },
@@ -1239,8 +1253,48 @@
         }
 
         const selectedAction = document.getElementById('jenis-aksi').value;
+        const fileInput = document.getElementById('foto-bukti');
         if (!selectedAction) return;
 
+        // Jika ada input file foto
+        let photoPublicUrl = "";
+        if (fileInput && fileInput.files[0]) {
+          const file = fileInput.files[0];
+          const fileExt = file.name.split('.').pop();
+          const fileName = `${Date.now()}_${currentUser.nama.replace(/\s+/g, '_')}.${fileExt}`;
+
+          alert("⏳ Mengunggah foto bukti aksi...");
+
+          const { error: uploadError } = await supabaseClient
+            .storage
+            .from('bukti-aksi')
+            .upload(fileName, file);
+
+          if (uploadError) {
+            alert("Gagal mengunggah foto: " + uploadError.message);
+            return;
+          }
+
+          const { data: urlData } = supabaseClient
+            .storage
+            .from('bukti-aksi')
+            .getPublicUrl(fileName);
+
+          photoPublicUrl = urlData.publicUrl;
+
+          // Simpan Laporan
+          await supabaseClient
+            .from('laporan')
+            .insert([{
+              siswa_id: currentUser.id,
+              nama_siswa: currentUser.nama,
+              kelas: currentUser.kelas,
+              jenis_aksi: selectedAction,
+              foto_url: photoPublicUrl
+            }]);
+        }
+
+        // Hitung Poin
         const actionData = pointValues[selectedAction];
         const today = new Date().toISOString().split('T')[0];
 
