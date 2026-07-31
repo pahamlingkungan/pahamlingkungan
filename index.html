@@ -1027,7 +1027,7 @@ function updateUI() {
 
   if (certBtn && certBadge) {
     if (userPts >= 5850) {
-      // 1. POIN CUKUP (>= 10.000)
+      // 1. POIN CUKUP (>= 5.850)
       certBadge.className = "cert-badge-status status-unlocked";
       certBadge.innerHTML = "🎉 Terbuka! Siap Di-redeem";
 
@@ -1041,18 +1041,18 @@ function updateUI() {
       certBtn.setAttribute("href", CERTIFICATE_FILE_PATH);
       certBtn.setAttribute("download", `Sertifikat_${currentUser.nama.replace(/\s+/g, '_')}.jepg`);
     } else {
-      // 2. POIN KURANG (< 10.000)
+      // 2. POIN KURANG (< 5.850)
       const sisaPts = 5850 - userPts;
       certBadge.className = "cert-badge-status status-locked";
       certBadge.innerHTML = `🔒 Terkunci (Sisa ${sisaPts.toLocaleString()} Pts Lagi)`;
 
-      certDesc.innerHTML = `Kumpulkan hingga <b>10.000 Poin</b> untuk membuka & mengunduh sertifikat penghargaan resmi ini!`;
+      certDesc.innerHTML = `Kumpulkan hingga <b>5.850 Poin</b> untuk membuka & mengunduh sertifikat penghargaan resmi ini!`;
 
       // Buat gambar jadi blur/samar
       if (certImg) certImg.className = "cert-preview-img locked";
 
       certBtn.className = "btn-cert locked";
-      certBtn.innerHTML = `🔒 Buka Sertifikat (${userPts.toLocaleString()} / 10.000 Pts)`;
+      certBtn.innerHTML = `🔒 Buka Sertifikat (${userPts.toLocaleString()} / 5.850 Pts)`;
       certBtn.removeAttribute("href");
       certBtn.removeAttribute("download");
     }
@@ -1497,7 +1497,7 @@ function handleCertClick(event) {
 
 <div class="certificate-card">
   <div id="cert-status-badge" class="cert-badge-status status-locked">
-    🔒 Terkunci (Butuh 10.000 Pts)
+    🔒 Terkunci (Butuh 5.850 Pts)
   </div>
 
   <h3 style="color: #fef08a; font-size: 1.4rem; margin-bottom: 8px;">
@@ -1505,7 +1505,7 @@ function handleCertClick(event) {
   </h3>
   
   <p id="cert-desc-text" style="color: #d1d5db; font-size: 0.95rem; margin-bottom: 18px;">
-    Kumpulkan hingga <b>10.000 Poin</b> untuk membuka & mengunduh sertifikat penghargaan resmi ini!
+    Kumpulkan hingga <b>5.850 Poin</b> untuk membuka & mengunduh sertifikat penghargaan resmi ini!
   </p>
 
   <div class="cert-preview-wrapper">
@@ -1514,7 +1514,7 @@ function handleCertClick(event) {
 
   <div style="display: flex; justify-content: center;">
     <a id="btn-redeem-cert" class="btn-cert locked" onclick="handleCertClick(event)">
-      🔒 Buka Sertifikat (0 / 10.000 Pts)
+      🔒 Buka Sertifikat (0 / 5.850 Pts)
     </a>
   </div>
 </div>
