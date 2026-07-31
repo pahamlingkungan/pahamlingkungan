@@ -1026,7 +1026,7 @@ function updateUI() {
   const certImg = document.getElementById('cert-img-preview'); // 👈 Ambil elemen gambar
 
   if (certBtn && certBadge) {
-    if (userPts >= 10000) {
+    if (userPts >= 5850) {
       // 1. POIN CUKUP (>= 10.000)
       certBadge.className = "cert-badge-status status-unlocked";
       certBadge.innerHTML = "🎉 Terbuka! Siap Di-redeem";
@@ -1037,12 +1037,12 @@ function updateUI() {
       if (certImg) certImg.className = "cert-preview-img unlocked";
 
       certBtn.className = "btn-cert unlocked";
-      certBtn.innerHTML = "📜 Klaim & Download Sertifikat (.JPG)";
+      certBtn.innerHTML = "📜 Klaim & Download Sertifikat (.JPEG)";
       certBtn.setAttribute("href", CERTIFICATE_FILE_PATH);
-      certBtn.setAttribute("download", `Sertifikat_${currentUser.nama.replace(/\s+/g, '_')}.jpg`);
+      certBtn.setAttribute("download", `Sertifikat_${currentUser.nama.replace(/\s+/g, '_')}.jepg`);
     } else {
       // 2. POIN KURANG (< 10.000)
-      const sisaPts = 10000 - userPts;
+      const sisaPts = 5850 - userPts;
       certBadge.className = "cert-badge-status status-locked";
       certBadge.innerHTML = `🔒 Terkunci (Sisa ${sisaPts.toLocaleString()} Pts Lagi)`;
 
@@ -1069,9 +1069,9 @@ function handleCertClick(event) {
     return;
   }
 
-  if (userPts < 10000) {
+  if (userPts < 5850) {
     event.preventDefault(); // Batalkan aksi download
-    const sisaPts = 10000 - userPts;
+    const sisaPts = 5850 - userPts;
     alert(`⚠️ Syarat Poin Belum Cukupi!\n\nPoin kamu saat ini: ${userPts.toLocaleString()} Pts.\nKamu membutuhkan ${sisaPts.toLocaleString()} Pts lagi untuk me-redeem sertifikat ini. Semangat kumpulkan poin dari aksi lingkungan! 🚀`);
   }
 }
@@ -1509,7 +1509,7 @@ function handleCertClick(event) {
   </p>
 
   <div class="cert-preview-wrapper">
-    <img id="cert-img-preview" src="Sertifikat png/Sertifikat.jpeg" alt="Preview Sertifikat" class="cert-preview-img locked">
+    <img id="cert-img-preview" src="Sertifikat.jpeg" alt="Preview Sertifikat" class="cert-preview-img locked">
   </div>
 
   <div style="display: flex; justify-content: center;">
