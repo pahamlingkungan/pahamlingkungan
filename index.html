@@ -1037,9 +1037,9 @@ function updateUI() {
       if (certImg) certImg.className = "cert-preview-img unlocked";
 
       certBtn.className = "btn-cert unlocked";
-      certBtn.innerHTML = "📜 Klaim & Download Sertifikat (.JPEG)";
+      certBtn.innerHTML = "📜 Klaim & Download Sertifikat (.jpeg)";
       certBtn.setAttribute("href", CERTIFICATE_FILE_PATH);
-      certBtn.setAttribute("download", `Sertifikat_${currentUser.nama.replace(/\s+/g, '_')}.jepg`);
+      certBtn.setAttribute("download", `Sertifikat_${currentUser.nama.replace(/\s+/g, '_')}.jpeg`);
     } else {
       // 2. POIN KURANG (< 5.850)
       const sisaPts = 5850 - userPts;
